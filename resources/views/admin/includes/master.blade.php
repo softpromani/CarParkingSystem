@@ -42,6 +42,9 @@
 
     <!-- Javascript  -->
     @include('admin.includes.foot')
+
+    @include('sweetalert::alert')
+
 </body>
 <!--end body-->
 

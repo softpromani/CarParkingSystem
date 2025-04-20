@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -12,7 +14,8 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        return view('admin.auth.register');
+        $users = User::all();
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -20,7 +23,7 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -28,7 +31,24 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'first_name'       => 'required|string|max:255',
+            'last_name'        => 'required|string|max:255',
+            'email'       => 'required|email|unique:users,email',
+            'password'         => 'required|confirmed',
+            'mobile_number'    => 'required|string|max:20',
+        ]);
+
+
+        $validated = User::create([
+            'first_name'     => $validated['first_name'],
+            'last_name'      => $validated['last_name'],
+            'email'          => $validated['email'],
+            'password'       => Hash::make($validated['password']),
+            'mobile_number'  => $validated['mobile_number'],
+        ]);
+
+        return redirect()->back()->with('success', 'Account created successfully!');
     }
 
     /**

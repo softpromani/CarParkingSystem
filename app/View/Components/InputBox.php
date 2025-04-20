@@ -16,6 +16,7 @@ class InputBox extends Component
     public bool $required;
     public ?string $pattern;
     public bool $checked;
+    public ?string $placeholder;
 
     /**
      * Create a new component instance.
@@ -28,7 +29,8 @@ class InputBox extends Component
         ?string $value = '',
         bool $required = false,
         ?string $pattern = null,
-        bool $checked = false
+        bool $checked = false,
+        ?string $placeholder = null
     ) {
         $this->name = $name;
         $this->label = $label;
@@ -38,6 +40,7 @@ class InputBox extends Component
         $this->required = $required;
         $this->pattern = $pattern;
         $this->checked = $checked;
+        $this->placeholder = $placeholder;
     }
 
     /**

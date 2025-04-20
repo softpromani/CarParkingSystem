@@ -1,4 +1,5 @@
 @extends('admin.includes.master')
+@section('title', 'User List')
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -22,7 +23,7 @@
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col">
-                           
+
                             <div class="d-flex justify-content-end "> <button
                                         onclick="window.location.href='{{ route('admin.user.create') }}'"
                                         class="btn btn-primary">
@@ -34,41 +35,55 @@
                 </div>
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle">
+                    </thead>
+                    <table id="users-table" class="table table-bordered table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">S. No.</th>
                                     <th scope="col">First Name</th>
                                     <th scope="col">Last Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Actions</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Sample Row -->
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>john@example.com</td>
-                                    <td>1234567890</td>
-                                    <td>
-                                        <div class="dropstart"> {{-- ya dropup ya dropdown depending on position --}}
-                                            <button class="btn btn-light btn-sm" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
 
-                                </tr>
-                                <!-- Repeat with loop or additional rows -->
-                            </tbody>
+
+                                <tbody>
+                                    @foreach ($users as  $user)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $user->first_name ?? '' }}</td>
+                                        <td>{{ $user->last_name ?? '' }}</td>
+                                        <td>{{ $user->email ?? '' }}</td>
+                                        <td>{{ $user->mobile_number ?? '' }}</td>
+                                        <td>
+                                            <div class="dropstart">
+                                                <button class="btn bg-white btn-sm" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="{{ route('admin.user.edit', $user->id) }}">Edit</a></li>
+                                                    <li>
+                                                        <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); confirmDelete({{ $user->id }})">
+                                                            Delete
+                                                        </a>
+
+                                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.user.destroy', $user->id) }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+
                         </table>
                     </div>
 
@@ -76,4 +91,15 @@
             </div>
         </div>
    </div>
+
+   <script>
+    function confirmDelete(id) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    }
+</script>
+
+
+
 @endsection

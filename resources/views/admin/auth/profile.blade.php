@@ -163,19 +163,19 @@
             </div><!--end col-->
         </div><!--end row-->
         <ul class="nav nav-tabs mb-3" role="tablist">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link fw-medium active" data-bs-toggle="tab" href="#post" role="tab" aria-selected="true">Post</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link fw-medium" data-bs-toggle="tab" href="#gallery" role="tab" aria-selected="false">Gallery</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
-                <a class="nav-link fw-medium" data-bs-toggle="tab" href="#settings" role="tab" aria-selected="false">Settings</a>
+                <a class="nav-link fw-medium active" data-bs-toggle="tab" href="#settings" role="tab" aria-selected="true">Settings</a>
             </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane active" id="post" role="tabpanel">
+            {{-- <div class="tab-pane active" id="post" role="tabpanel">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
@@ -509,8 +509,8 @@
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane p-3" id="settings" role="tabpanel">
+            </div> --}}
+            <div class="tab-pane p-3 active" id="settings" role="tabpanel">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">

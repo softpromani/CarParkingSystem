@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\auth\LoginController;
 use App\Http\Controllers\admin\auth\RegisterController;
 use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 use PgSql\Lob;
@@ -19,5 +20,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('login', LoginController::class, );
     Route::resource('register',RegisterController::class, );
     Route::resource('user',UserController::class, );
+    Route::resource('role',RoleController::class, );
 
 });

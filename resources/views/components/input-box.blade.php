@@ -11,6 +11,7 @@
             id="{{ $id }}"
             name="{{ $name }}"
             value="{{ old($name, $value) }}"
+            placeholder="{{ $placeholder }}"
             {{ $required ? 'required' : '' }}
             {{ $pattern ? "pattern=$pattern" : '' }}
             {{ $checked ? 'checked' : '' }}
