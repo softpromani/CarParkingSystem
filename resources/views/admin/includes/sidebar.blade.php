@@ -49,14 +49,46 @@
                     </li><!--end nav-item-->
 
                     <li class="nav-item">
-                        <a class="nav-link" href="apps-chat.html">
+                        <a class="nav-link" href="{{route('admin.user.index')}}">
                             <i class="iconoir-chat-bubble menu-icon"></i>
                             <span>Users</span>
                         </a>
                     </li><!--end nav-item-->
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sidebarVehicle" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarAnalytics">
+                            <i class="iconoir-reports menu-icon"></i>
+                            <span>Vehicle Settings</span>
+                        </a>
+                        <div class="collapse " id="sidebarVehicle">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="{{route('admin.brand.index')}}" class="nav-link ">Brand</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.model.index')}}" class="nav-link ">Model</a>
+                                </li>
+                            </ul><!--end nav-->
+                        </div>
+                    </li><!--end nav-item-->
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.driver.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Driver</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.guard.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Guard</span>
+                        </a>
+                    </li>
+
                 </ul><!--end navbar-nav--->
-              
+
             </div>
         </div><!--end startbar-collapse-->
     </div><!--end startbar-menu-->
