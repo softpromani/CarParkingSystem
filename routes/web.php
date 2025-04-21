@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\auth\LoginController;
 use App\Http\Controllers\admin\auth\RegisterController;
+use App\Http\Controllers\admin\BusinessSettingController;
 use App\Http\Controllers\admin\DriverController;
 use App\Http\Controllers\admin\GuardController;
 use App\Http\Controllers\admin\ProfileController;
@@ -40,5 +41,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('model',ModelController::class, );
     Route::resource('driver',DriverController::class, );
     Route::resource('guard',GuardController::class, );
+    Route::resource('business-setting',BusinessSettingController::class, );
 
 });

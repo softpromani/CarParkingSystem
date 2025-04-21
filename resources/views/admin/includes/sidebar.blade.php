@@ -86,6 +86,12 @@
                             <span>Guard</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.business-setting.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Business Settings</span>
+                        </a>
+                    </li>
 
                 </ul><!--end navbar-nav--->
 
