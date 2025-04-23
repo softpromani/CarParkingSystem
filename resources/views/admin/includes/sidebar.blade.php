@@ -31,6 +31,13 @@
                     </li><!--end nav-item-->
 
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.god-eye.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>God's Eye</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAnalytics">
                             <i class="iconoir-reports menu-icon"></i>
@@ -87,9 +94,59 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.faq.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Faq's</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.business-setting.index')}}">
                             <i class="iconoir-chat-bubble menu-icon"></i>
                             <span>Business Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.coupan.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Coupan</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sidebarBusinessSetup" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarAnalytics">
+                            <i class="iconoir-reports menu-icon"></i>
+                            <span>Business Setup</span>
+                        </a>
+                        <div class="collapse " id="sidebarBusinessSetup">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="{{route('admin.admin-setting.index')}}" class="nav-link ">Business Setting</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.business-page.index')}}" class="nav-link ">Business Pages</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.social-media.index')}}" class="nav-link ">Social Media Links</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.third-party.index')}}" class="nav-link ">Third Party API</a>
+                                </li>
+                            </ul><!--end nav-->
+                        </div>
+                    </li><!--end nav-item-->
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.parking-facility.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Parking Facilities</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.parking.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Parking List</span>
                         </a>
                     </li>
 
