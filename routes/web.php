@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('god-eye', GodEyeController::class);
@@ -53,7 +53,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('role',RoleController::class);
     Route::resource('brand',BrandController::class);
     Route::resource('model',ModelController::class);
-    Route::resource('driver',DriverController::class);
     Route::resource('guard',GuardController::class);
     Route::resource('business-setting',BusinessSettingController::class);
     Route::resource('admin-setting',AdminSettingController::class);
@@ -64,7 +63,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('third-party',ThirdPartyController::class);
     Route::resource('coupan',CoupanController::class);
     Route::resource('faq',faqController::class);
-    Route::resource('truck',TruckController::class);
     Route::resource('wallet',WalletController::class);
     Route::resource('enquiry',EnquiryController::class);
     Route::resource('customer',CustomerController::class);
