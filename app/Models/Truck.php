@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ParkingFacilityMap extends Model
+class Truck extends Model
 {
     protected $guarded =[];
 }

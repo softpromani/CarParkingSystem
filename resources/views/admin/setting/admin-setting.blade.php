@@ -98,7 +98,7 @@
                     <div class="card-body">
                         <div class="row align-items-end">
                             <div class="col-md-12">
-                                <x-input-box name="primary_color_2" type="file" id="primary_color_2" label="Primary Color" class="form-control form-control-lg" style="height: 50px;" required />
+                                <x-input-box name="primary_color_2" type="file" id="primary_color_2"  class="form-control form-control-lg" style="height: 50px;" required />
                             </div>
 
                         </div>
@@ -142,7 +142,27 @@
                     <div class="card-body">
                         <div class="row align-items-end">
                             <div class="col-md-12">
-                                <x-input-box name="primary_color_2" type="file" id="primary_color_2" label="Primary Color" class="form-control form-control-lg" style="height: 50px;" required />
+                                <x-input-box name="primary_color_2" type="file" id="primary_color_2"  class="form-control form-control-lg" style="height: 50px;" required />
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">App Logo</h5>
+                </div>
+
+                <form method="POST" action="" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row align-items-end">
+                            <div class="col-md-12">
+                                <x-input-box name="primary_color_2" type="file" id="primary_color_2"  class="form-control form-control-lg" style="height: 50px;" required />
                             </div>
 
                         </div>

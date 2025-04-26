@@ -32,7 +32,8 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.god-eye.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <i class="iconoir-eye menu-icon"></i> <!-- Eye icon -->
+
                             <span>God's Eye</span>
                         </a>
                     </li>
@@ -57,7 +58,8 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.user.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
+                           <i class="iconoir-user menu-icon"></i> <!-- User icon -->
+
                             <span>Users</span>
                         </a>
                     </li><!--end nav-item-->
@@ -82,7 +84,8 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.driver.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <i class="iconoir-car menu-icon"></i> <!-- Car icon -->
+
                             <span>Driver</span>
                         </a>
                     </li>
@@ -110,6 +113,13 @@
                         <a class="nav-link" href="{{route('admin.coupan.index')}}">
                             <i class="iconoir-chat-bubble menu-icon"></i>
                             <span>Coupan</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.wallet.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Wallet</span>
                         </a>
                     </li>
 
@@ -147,6 +157,26 @@
                         <a class="nav-link" href="{{route('admin.parking.index')}}">
                             <i class="iconoir-chat-bubble menu-icon"></i>
                             <span>Parking List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.truck.index')}}">
+                            <i class="iconoir-truck menu-icon"></i> <!-- Truck icon -->
+
+                            <span>Truck</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.enquiry.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>User Enquiry</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.customer.index')}}">
+                            <i class="iconoir-user-circle menu-icon"></i> <!-- User circle icon -->
+
+                            <span>Customer</span>
                         </a>
                     </li>
 
