@@ -26,7 +26,6 @@
                         <a class="nav-link" href="{{route('admin.dashboard')}}">
                             <i class="iconoir-report-columns menu-icon"></i>
                             <span>Dashboard</span>
-                            <span class="badge text-bg-warning ms-auto">08</span>
                         </a>
                     </li><!--end nav-item-->
 
@@ -38,31 +37,79 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarAnalytics">
-                            <i class="iconoir-reports menu-icon"></i>
-                            <span>Role & Permission</span>
-                        </a>
-                        <div class="collapse " id="sidebarAnalytics">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a href="{{route('admin.role.index')}}" class="nav-link ">Role</a>
-                                </li><!--end nav-item-->
-                                {{-- <li class="nav-item">
-                                    <a href="analytics-reports.html" class="nav-link ">View</a>
-                                </li><!--end nav-item--> --}}
-                            </ul><!--end nav-->
-                        </div>
-                    </li><!--end nav-item-->
+                    <li class="menu-label mt-2">
+                        <span>Account Management</span>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.user.index')}}">
                            <i class="iconoir-user menu-icon"></i> <!-- User icon -->
-
-                            <span>Users</span>
+                            <span>Employee</span>
                         </a>
                     </li><!--end nav-item-->
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.guard.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Guard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.enquiry.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>User Enquiry</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.customer.index')}}">
+                            <i class="iconoir-user-circle menu-icon"></i> <!-- User circle icon -->
+                            <span>Customer</span>
+                        </a>
+                    </li>
+                    <li class="menu-label mt-2">
+                        <span>App Management</span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.coupan.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Coupan</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.wallet.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Wallet</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.faq.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Faq's</span>
+                        </a>
+                    </li>
+
+
+                    <li class="menu-label mt-2">
+                        <span>Parking Management</span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.parking-facility.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Parking Facilities</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.parking.index')}}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Parking List</span>
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarVehicle" data-bs-toggle="collapse" role="button"
@@ -82,45 +129,9 @@
                         </div>
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.driver.index')}}">
-                            <i class="iconoir-car menu-icon"></i> <!-- Car icon -->
 
-                            <span>Driver</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.guard.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Guard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.faq.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Faq's</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.business-setting.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Business Settings</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.coupan.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Coupan</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.wallet.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Wallet</span>
-                        </a>
+                    <li class="menu-label mt-2">
+                        <span>Setting Management</span>
                     </li>
 
                     <li class="nav-item">
@@ -148,37 +159,29 @@
                     </li><!--end nav-item-->
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.parking-facility.index')}}">
+                        <a class="nav-link" href="{{route('admin.business-setting.index')}}">
                             <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Parking Facilities</span>
+                            <span>Business Settings</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.parking.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>Parking List</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.truck.index')}}">
-                            <i class="iconoir-truck menu-icon"></i> <!-- Truck icon -->
 
-                            <span>Truck</span>
-                        </a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.enquiry.index')}}">
-                            <i class="iconoir-chat-bubble menu-icon"></i>
-                            <span>User Enquiry</span>
+                        <a class="nav-link" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarAnalytics">
+                            <i class="iconoir-reports menu-icon"></i>
+                            <span>Role & Permission</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.customer.index')}}">
-                            <i class="iconoir-user-circle menu-icon"></i> <!-- User circle icon -->
-
-                            <span>Customer</span>
-                        </a>
-                    </li>
+                        <div class="collapse " id="sidebarAnalytics">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="{{route('admin.role.index')}}" class="nav-link ">Role</a>
+                                </li><!--end nav-item-->
+                                {{-- <li class="nav-item">
+                                    <a href="analytics-reports.html" class="nav-link ">View</a>
+                                </li><!--end nav-item--> --}}
+                            </ul><!--end nav-->
+                        </div>
+                    </li><!--end nav-item-->
 
                 </ul><!--end navbar-nav--->
 
