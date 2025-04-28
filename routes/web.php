@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\ParkingFacilityController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\SocialMediaController;
+use App\Http\Controllers\admin\StatusController;
 use App\Http\Controllers\admin\ThirdPartyController;
 use App\Http\Controllers\admin\TruckController;
 use App\Http\Controllers\admin\UserController;
@@ -66,5 +67,6 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('wallet',WalletController::class);
     Route::resource('enquiry',EnquiryController::class);
     Route::resource('customer',CustomerController::class);
+    Route::resource('order-status',StatusController::class);
 
 });

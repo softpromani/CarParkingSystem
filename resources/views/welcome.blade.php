@@ -275,3 +275,112 @@
         @endif
     </body>
 </html>
+
+
+{{-- public function index(Request $request)
+{
+    if ($request->ajax()) {
+        $users = Admin::select(['id', 'first_name', 'last_name', 'dob','country_name', 'gender', 'hobbies','address', 'phone', 'email', 'created_at']);
+
+        return DataTables::of($users)
+            ->addIndexColumn()
+            ->addColumn('name', function ($user) {
+              return $user->first_name.' '. $user->last_name;
+        })
+
+      ->addColumn('hobbies', function ($user) {
+        return !empty($user->hobbies) ? implode(', ', json_decode($user->hobbies, true)) : 'N/A';
+    })
+
+            ->addColumn('action', function ($user) {
+                return '
+                    <a href="' . route('user.edit', $user->id) . '" class="btn btn-sm btn-warning">Edit</a>
+                    <button onclick="deleteUser(' . $user->id . ')" class="btn btn-sm btn-danger">Delete</button> ';
+            })
+
+            ->make(true);
+    }
+    return view('Introduction');
+}
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('user.index') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'dob',
+                    name: 'dob',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'country_name',
+                    name: 'country_name'
+                },
+                {
+                    data: 'gender',
+                    name: 'gender'
+                },
+                {
+                    data: 'hobbies',
+                    name: 'hobbies'
+                },
+                {
+                    data: 'address',
+                    name: 'address'
+                },
+                {
+                    data: 'phone',
+                    name: 'phone'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                } // Add action column
+            ]
+        });
+    });
+
+    function deleteUser(id) {
+        var newurl = "{{ route('user.destroy', ':id') }}".replace(':id', id);
+
+        if (confirm("Are you sure you want to delete this user?")) {
+            $.ajax({
+                url: newurl,
+                type: "DELETE",
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token in headers
+                },
+                success: function(response) {
+                    alert(response.message);
+                    $('#users-table').DataTable().ajax.reload(); // Reload correct DataTable
+                },
+                error: function(xhr) {
+                    alert("Error deleting user!");
+                }
+            });
+        }
+    }
+</script> --}}

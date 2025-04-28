@@ -3,7 +3,7 @@
 
 <head>
     @include('admin.includes.head')
-
+    @yield('style')
 </head>
 
 
@@ -44,7 +44,7 @@
     @include('admin.includes.foot')
 
     @include('sweetalert::alert')
-
+    @yield('script')
 </body>
 <!--end body-->
 
