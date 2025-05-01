@@ -29,69 +29,72 @@
 
                 <div class="card-body pt-0">
                     <div class="table-responsive mt-3">
-                        <table id="users-table" class="table table-bordered table-hover align-middle">
+                        <table id="myTable" class="table table-bordered table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th>S. No.</th>
                                     <th>Name</th>
                                     <th>Image</th>
                                     <th>Address</th>
-
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($parkings as $parking)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $parking->name ?? '-' }}</td>
-                                        <td>
-                                            @if($parking->image)
-                                            <img src="{{ asset('storage/' . $parking->image) }}" width="50" height="50" class="rounded" alt="Image">
-                                        @else
-                                            -
-                                        @endif
 
-                                        </td>
-                                        <td>{{ $parking->address ?? '-' }}</td>
-
-
-                                        <td>
-                                            <div class="dropstart">
-                                                <button class="btn btn-sm bg-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('admin.parking.edit', $parking->id) }}">Edit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); confirmDelete({{ $parking->id }})">
-                                                            Delete
-                                                        </a>
-                                                        <form id="delete-form-{{ $parking->id }}" action="{{ route('admin.parking.destroy', $parking->id) }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                           </tbody>
                         </table>
                     </div> <!-- /.table-responsive -->
                 </div> <!-- /.card-body -->
             </div> <!-- /.card -->
         </div> <!-- /.col -->
     </div> <!-- /.row -->
+@endsection
 
+@section('script')
+
+    <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script>
-        function confirmDelete(id) {
-            if (confirm('Are you sure you want to delete this user?')) {
-                document.getElementById('delete-form-' + id).submit();
+        $(document).ready(function() {
+            var table = $('#myTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.parking.index') }}",
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'name', name: 'name', searchable: true },
+                    { data: 'image', name: 'image', searchable: true  },
+                    { data: 'address', name: 'address', searchable: true  },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                ]
+            });
+        });
+
+        // Delete function
+        function deleteUser(id) {
+    var newurl = "{{ route('admin.parking.destroy', ':id') }}".replace(':id', id);
+
+    if (confirm("Are you sure you want to delete this user?")) {
+        $.ajax({
+            url: newurl,
+            type: "DELETE",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                if (response.status) {
+                    alert(response.message);
+                    $('#myTable').DataTable().ajax.reload(); // Table ID check: 'myTable' not 'mytable'
+                } else {
+                    alert('Failed to delete!');
+                }
+            },
+            error: function(xhr) {
+                alert("Something went wrong!");
             }
-        }
-    </script>
+        });
+    }
+}
+
+        </script>
+
 @endsection

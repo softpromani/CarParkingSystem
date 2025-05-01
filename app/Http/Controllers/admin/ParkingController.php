@@ -7,16 +7,32 @@ use App\Models\Parking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class ParkingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $parkings = Parking::all();
-        return view('admin.parking.index', compact('parkings'));
+        if ($request->ajax()) {
+            $park = Parking::select(['id', 'name', 'image', 'address']); // Fields match karo
+            return DataTables::of($park)
+                ->addIndexColumn()
+                ->addColumn('image', function ($row) {
+                    $imageUrl = asset('storage/' . $row->image);
+                    return '<img src="' . $imageUrl . '" alt="Image" width="60" height="60" style="object-fit: cover;">';
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.parking.edit', $row->id) . '" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i></a>
+                        <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>';
+                })
+                ->rawColumns(['action','image'])
+                ->make(true);
+        }
+        return view('admin.parking.index');
     }
 
     /**
@@ -167,7 +183,9 @@ class ParkingController extends Controller
         // Delete the record
         $parking->delete();
 
-        toast('Parking Deleted Successfully!', 'success');
-        return redirect()->route('admin.parking.index');
+        return response()->json([
+            'status' => true,
+            'message' => "User deleted Successfully!"
+        ]);
     }
 }

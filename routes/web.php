@@ -35,7 +35,7 @@ Route::get('/', function () {
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.submit');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -68,5 +68,6 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('enquiry',EnquiryController::class);
     Route::resource('customer',CustomerController::class);
     Route::resource('order-status',StatusController::class);
+    Route::post('change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
 
 });

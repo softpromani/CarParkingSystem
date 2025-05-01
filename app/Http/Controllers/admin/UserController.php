@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class UserController extends Controller
@@ -14,10 +15,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('admin.user.index', compact('users'));
+        if ($request->ajax()) {
+            $user = User::select(['id', 'first_name', 'last_name', 'email', 'mobile_number']); // Fields match karo
+            return DataTables::of($user)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.user.edit', $row->id) . '" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i></a>
+                        <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.user.index');
     }
 
     /**
@@ -98,8 +110,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-
-        toast('User Deleted Successfully!', 'success');
-        return redirect()->route('admin.user.index');
+         return response()->json([
+            'status' => true,
+            'message' => "User deleted Successfully!"
+        ]);
     }
+
 }
