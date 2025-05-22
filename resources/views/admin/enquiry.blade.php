@@ -1,5 +1,6 @@
 @extends('admin.includes.master')
 @section('title', 'Coupan')
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -24,7 +25,7 @@
 
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle">
+                        <table id="users-table" class="table table-bordered table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">S. No.</th>
@@ -43,7 +44,7 @@
                                     <td>Percentage</td>
                                     <td>15%</td>
                                     <td>SUMMER15</td>
-                                
+
                                     <td>
                                         <div class="dropstart">
                                             <button class="btn bg-white btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -74,4 +75,7 @@
             }
         }
     </script>
+
+
+
 @endsection

@@ -1,5 +1,6 @@
 @extends('admin.includes.master')
 @section('title', 'Guard List')
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -99,6 +100,9 @@
         }
     }
 </script>
+
+
+
 
 
 

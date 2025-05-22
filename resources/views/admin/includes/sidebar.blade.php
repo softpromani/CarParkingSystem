@@ -183,13 +183,7 @@
                         </div>
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.customer.index')}}">
-                            <i class="iconoir-user-circle menu-icon"></i> <!-- User circle icon -->
-
-                            <span>Customer</span>
-                        </a>
-                    </li>
+              
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.order-status.index')}}">

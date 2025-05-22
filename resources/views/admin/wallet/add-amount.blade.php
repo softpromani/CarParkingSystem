@@ -1,5 +1,6 @@
 @extends('admin.includes.master')
 @section('title', 'Role')
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -62,7 +63,7 @@
                 <div class="card-header"></div>
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle">
+                        <table id="users-table" class="table table-bordered table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">S. No.</th>
@@ -107,12 +108,19 @@
             </div>
         </div>
 
-        <script>
+ </div>
+
+ @section('script')
+     <script>
             function confirmDelete(id) {
                 if (confirm('Are you sure you want to delete this user?')) {
                     document.getElementById('delete-form-' + id).submit();
                 }
             }
         </script>
-    </div>
+
+
+ @endsection
+
+
 @endsection

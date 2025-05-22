@@ -57,7 +57,7 @@
                 </div>
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle">
+                        <table id="users-table" class="table table-bordered table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">S. No.</th>
