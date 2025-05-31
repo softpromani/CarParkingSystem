@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Parking;
+use App\Models\ParkingFacility;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,7 @@ class ParkingController extends Controller
                         <a href="' . route('admin.parking.edit', $row->id) . '" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i></a>
                         <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>';
                 })
-                ->rawColumns(['action','image'])
+                ->rawColumns(['action', 'image'])
                 ->make(true);
         }
         return view('admin.parking.index');
@@ -41,7 +42,8 @@ class ParkingController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('admin.parking.create', compact('users'));
+        $parkings = ParkingFacility::all();
+        return view('admin.parking.create', compact('users', 'parkings'));
     }
     /**
      * Store a newly created resource in storage.
@@ -59,6 +61,7 @@ class ParkingController extends Controller
             'motorcycle_price'  => 'nullable|numeric',
             'latitude'          => 'nullable|string',
             'longitude'         => 'nullable|string',
+            'charge_unit'         => 'nullable|numeric',
             'created_by'        => 'nullable|string',
             'image'        => 'nullable',
 
@@ -71,9 +74,8 @@ class ParkingController extends Controller
         }
 
 
-
         // Save parking data
-        Parking::create([
+        $parking = Parking::create([
             'user_id'           => $validated['user_id'],
             'name'              => $validated['name'],
             'address'           => $validated['address'],
@@ -85,11 +87,12 @@ class ParkingController extends Controller
             'motorcycle_price'  => $validated['motorcycle_price'],
             'latitude'          => $validated['latitude'],
             'longitude'         => $validated['longitude'],
+             'charge_unit'         => $validated['charge_unit'],
             'image' => $imagePath,
 
         ]);
 
-
+        $parking->facilities()->attach($request->parking_facility_id);
 
         toast('Parking Created Successfully!', 'success');
         return redirect()->route('admin.parking.index');
@@ -110,7 +113,8 @@ class ParkingController extends Controller
      */
     public function edit(string $id)
     {
-        $parkings = Parking::all(); // correct this line
+        $parkings = ParkingFacility::all(); // correct this line
+
         $editparking = Parking::findOrFail($id);
         $users = User::all();
 
@@ -133,6 +137,7 @@ class ParkingController extends Controller
             'motorcycle_price'  => 'nullable|numeric',
             'latitude'          => 'nullable|string',
             'longitude'         => 'nullable|string',
+            'charge_unit'         => 'nullable|numeric',
             'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
@@ -161,8 +166,12 @@ class ParkingController extends Controller
             'motorcycle_price'  => $validated['motorcycle_price'],
             'latitude'          => $validated['latitude'],
             'longitude'         => $validated['longitude'],
+            'charge_unit'         => $validated['charge_unit'],
             'image'             => $validated['image'] ?? $parking->image, // Keep old if not changed
         ]);
+
+
+        $parking->facilities()->sync($request->parking_facility_id);
 
         toast('Parking Updated Successfully!', 'success');
         return redirect()->route('admin.parking.index');
@@ -179,6 +188,8 @@ class ParkingController extends Controller
         if ($parking->image && Storage::disk('public')->exists($parking->image)) {
             Storage::disk('public')->delete($parking->image);
         }
+
+        $parking->facilities()->detach();
 
         // Delete the record
         $parking->delete();

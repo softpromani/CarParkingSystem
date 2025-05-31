@@ -23,11 +23,10 @@
                     <div class="row align-items-center">
                         <div class="col">
                             <div class="d-flex justify-content-end">
-                                <button
-                                        onclick="window.location.href='{{ route('admin.coupan.create') }}'"
-                                        class="btn btn-primary">
-                                        + Add Coupan
-                                    </button>
+                                <button onclick="window.location.href='{{ route('admin.coupan.create') }}'"
+                                    class="btn btn-primary">
+                                    + Add Coupan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -40,43 +39,45 @@
                                 <tr>
                                     <th scope="col">S. No.</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Discount Type</th>
-                                    <th scope="col">Discount</th>
                                     <th scope="col">Code</th>
-                                    <th scope="col">Coupan Type</th>
-                                    <th scope="col">Validity</th>
+                                    <th scope="col">Validity Start</th>
+                                    <th scope="col">Validity Expires</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($coupans as $coupan)
-                                <tr>
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{$coupan->title}}</td>
-                                    <td>{{$coupan->discount_type}}</td>
-                                    <td>{{$coupan->discount}}</td>
-                                    <td>{{$coupan->code}}</td>
-                                    <td>{{$coupan->coupan_type}}</td>
-                                    <td>{{$coupan->validity}}</td>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $coupan->title }}</td>
+                                        <td>{{ $coupan->code }}</td>
+                                        <td>{{ $coupan->validity_start }}</td>
+                                        <td>{{ $coupan->validity_end }}</td>
 
-                                    <td>
-                                        <div class="dropstart">
-                                            <button class="btn bg-white btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('admin.coupan.edit', $coupan->id) }}">Edit</a></li>
-                                                <li>
-                                                    <form action="{{ route('admin.coupan.destroy', $coupan->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="dropdown-item text-danger">Delete</button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <div class="dropstart">
+                                                <button class="btn bg-white btn-sm" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('admin.coupan.edit', $coupan->id) }}">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <form action="{{ route('admin.coupan.destroy', $coupan->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Are you sure you want to delete this?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="dropdown-item text-danger">Delete</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

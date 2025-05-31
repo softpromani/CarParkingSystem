@@ -47,4 +47,11 @@ class User extends Authenticatable
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+
+        function parking_guard(){
+
+            return $this->hasOne(GuardParkingMap::class,'guard_id');
+            
+        }
 }

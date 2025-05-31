@@ -27,7 +27,9 @@
                     </div>
                 </div>
                 <div class="card-body pt-0">
-                    <form action="{{ isset($editcoupan) ? route('admin.coupan.update', $editcoupan->id) : route('admin.coupan.store') }}" method="post">
+                    <form
+                        action="{{ isset($editcoupan) ? route('admin.coupan.update', $editcoupan->id) : route('admin.coupan.store') }}"
+                        method="post">
                         @csrf
                         @if (isset($editcoupan))
                             @method('PUT')
@@ -44,10 +46,7 @@
                                     :options="[
                                         'percentage' => 'Percentage',
                                         'fix' => 'Fix',
-                                    ]"
-                                    placeholder="--Select--"
-                                    :selected="old('discount_type', $editcoupan->discount_type ?? '')"
-                                    required />
+                                    ]" placeholder="--Select--" :selected="old('discount_type', $editcoupan->discount_type ?? '')" required />
                             </div>
 
                             <div class="col-md-4">
@@ -61,15 +60,12 @@
                             </div>
 
                             <div class="col-md-4 mt-2">
-                                <x-select-box label="Coupan Type" id="coupan_type" name="coupan_type"
-                                    :options="[
-                                        'parking_wise' => 'Parking Wise',
-                                        'userwise' => 'Userwise',
-                                        'all' => 'All',
-                                    ]"
-                                    placeholder="--Select--"
-                                    :selected="old('coupan_type', $editcoupan->coupan_type ?? '')"
-                                    required />
+                                <x-select-box label="Coupan Type" id="coupan_type" name="coupan_type" :options="[
+                                    'parking_wise' => 'Parking Wise',
+                                    'userwise' => 'Userwise',
+                                    'all' => 'All',
+                                ]"
+                                    placeholder="--Select--" :selected="old('coupan_type', $editcoupan->coupan_type ?? '')" required />
                             </div>
 
                             <div class="col-md-4 mt-2 user-field">
@@ -99,10 +95,35 @@
                             </div>
 
                             <div class="col-md-4 mt-2">
-                                <x-input-box name="validity" type="date" label="Validity"
-                                    value="{{ old('validity', isset($editcoupan->validity) ? \Carbon\Carbon::parse($editcoupan->validity)->format('Y-m-d') : '') }}"
+                                <x-input-box name="validity_start" type="date" label="Validity Start"
+                                    value="{{ old('validity_start', isset($editcoupan->validity) ? \Carbon\Carbon::parse($editcoupan->validity_start)->format('Y-m-d') : '') }}"
                                     required />
                             </div>
+                            <div class="col-md-4 mt-2">
+                                <x-input-box name="validity_end" type="date" label="Validity End"
+                                    value="{{ old('validity_end', isset($editcoupan->validity_end) ? \Carbon\Carbon::parse($editcoupan->validity_end)->format('Y-m-d') : '') }}"
+                                    required />
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <label class="form-label d-block">Coupan Uses</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="coupan_uses"
+                                        id="coupan_uses_single" value="single"
+                                        {{ old('coupan_uses', $editcoupan->coupan_uses ?? '') == 'single' ? 'checked' : '' }}
+                                        required>
+                                    <label class="form-check-label" for="coupan_uses_single">Single</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="coupan_uses"
+                                        id="coupan_uses_multiple" value="multiple"
+                                        {{ old('coupan_uses', $editcoupan->coupan_uses ?? '') == 'multiple' ? 'checked' : '' }}
+                                        required>
+                                    <label class="form-check-label" for="coupan_uses_multiple">Multiple</label>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <button class="btn btn-primary mt-2">Submit</button>
@@ -127,7 +148,7 @@
                 }
             }
 
-            // Run once on page load (helpful if form is repopulated)
+            // Run once on page load (helpful if form   is repopulated)
             toggleFields($('#coupan_type').val());
 
             // Run every time selection changes

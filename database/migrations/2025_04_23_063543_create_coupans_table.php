@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string('coupan_type');
             $table->unsignedBigInteger('parking_id')->nullable();
             $table->longText('user_id')->nullable();
-            $table->dateTime('validity');
+            $table->dateTime('validity_start');
+            $table->dateTime('validity_end');
+             $table->string('coupan_uses');
             $table->tinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

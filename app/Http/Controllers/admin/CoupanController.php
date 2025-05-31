@@ -34,6 +34,8 @@ class CoupanController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $validated = $request->validate([
             'title'         => 'required|string|max:255',
             'discount_type' => 'nullable|string',
@@ -42,7 +44,9 @@ class CoupanController extends Controller
             'coupan_type'   => 'nullable|string',
             'parking_id'    => 'nullable|exists:parkings,id',
             'user_id'       => 'nullable|exists:users,id',
-            'validity'      => 'nullable|date',
+            'validity_start'      => 'nullable|date',
+            'validity_end'      => 'nullable|date',
+            'coupan_uses'      => 'nullable|string',
         ]);
 
 
@@ -54,10 +58,10 @@ class CoupanController extends Controller
             'coupan_type'   => $validated['coupan_type'] ?? null,
             'parking_id'    => $validated['parking_id'] ?? null,
             'user_id'       => $validated['user_id'] ?? null,
-            'validity'      => $validated['validity'] ?? null,
+            'validity_start'      => $validated['validity_start'] ?? null,
+            'validity_end'      => $validated['validity_end'] ?? null,
+            'coupan_uses'      => $validated['coupan_uses'] ?? null,
         ]);
-
-
 
 
         toast('Coupan Created Successfully!', 'success');
@@ -98,7 +102,9 @@ class CoupanController extends Controller
             'coupan_type'   => 'nullable|string',
             'parking_id'    => 'nullable|integer',
             'user_id'       => 'nullable|exists:users,id',
-            'validity'      => 'nullable|date',
+            'validity_start'      => 'nullable|date',
+            'validity_end'      => 'nullable|date',
+            'coupan_uses'      => 'nullable|string',
         ]);
 
         $coupan = Coupan::findOrFail($id); // Fetch the coupan record
@@ -111,7 +117,9 @@ class CoupanController extends Controller
             'coupan_type'   => $validated['coupan_type'] ?? null,
             'parking_id'    => $validated['parking_id'] ?? null,
             'user_id'       => $validated['user_id'] ?? null,
-            'validity'      => $validated['validity'] ?? null,
+            'validity_start'      => $validated['validity_start'] ?? null,
+            'validity_end'      => $validated['validity_end'] ?? null,
+            'coupan_uses'      => $validated['coupan_uses'] ?? null,
         ]);
 
         toast('Coupan Updated Successfully!', 'success');

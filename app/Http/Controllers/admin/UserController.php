@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Parking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +39,7 @@ class UserController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('admin.user.create', compact('users'));
+        return view('admin.user.create', compact('users','parkings'));
     }
 
     /**

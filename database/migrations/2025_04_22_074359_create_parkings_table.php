@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('motorcycle_price',10,2)->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+             $table->decimal('charge_unit',10,2)->nullable();
             $table->tinyInteger('status')->default(1);
             $table->string('created_by')->nullable();
             $table->softDeletes();
