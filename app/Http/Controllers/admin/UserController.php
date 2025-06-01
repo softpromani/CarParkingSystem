@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -19,7 +20,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user = User::select(['id', 'first_name', 'last_name', 'email', 'mobile_number']); // Fields match karo
+            $user = User::select(['id', 'first_name', 'last_name', 'email', 'mobile_number']);
             return DataTables::of($user)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -38,8 +39,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $users = User::all();
-        return view('admin.user.create', compact('users','parkings'));
+        $roles = Role::where('name', '!=', 'guard')->pluck('name', 'id')->toArray();
+        return view('admin.user.create', compact('roles'));
     }
 
     /**
@@ -51,8 +52,8 @@ class UserController extends Controller
             'first_name'       => 'required|string|max:255',
             'last_name'        => 'required|string|max:255',
             'email'       => 'required|email|unique:users,email',
-            // 'password'         => 'required|confirmed',
             'mobile_number'    => 'required|string|max:20',
+            'role_id'    => 'required',
         ]);
 
 
@@ -64,7 +65,10 @@ class UserController extends Controller
             'mobile_number'  => $validated['mobile_number'],
         ]);
 
-        toast('User Created Successfully!', 'success');
+        $role = Role::find($request->role_id);
+        $validated->assignRole($role->name);
+
+        toast('User created successfully!', 'success');
         return redirect()->route('admin.user.index');
     }
 
@@ -81,8 +85,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.user.create', compact('user'));
+        $edituser = User::findOrFail($id);
+        return view('admin.user.create', compact('edituser'));
     }
 
     /**
@@ -95,12 +99,21 @@ class UserController extends Controller
             'last_name'      => 'required|string|max:255',
             'email'          => 'required|email|unique:users,email,' . $id,
             'mobile_number'  => 'required|string|max:20',
+            'role_id'    => 'required',
         ]);
 
         $user = User::findOrFail($id);
         $user->update($validated);
 
-        toast('User Updated Successfully!', 'success');
+        if($request->role_id){
+            $user = User::find($id);
+            $role = Role::find($request->role_id);
+            // Remove all existing roles and assign the new one
+            $user->syncRoles([$role->name]);
+        }
+
+
+        toast('User updated successfully!', 'success');
         return redirect()->route('admin.user.index');
     }
 

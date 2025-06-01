@@ -5,9 +5,9 @@
 
 
     <meta charset="utf-8" />
-    <title>Login | Mifty - Admin & Dashboard Template</title>
+    <title>Login | Happy Parking</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Happy Parking" name="description" />
     <meta content="" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -39,8 +39,8 @@
                                             <img src="{{ asset('admin/assets/images/logo-sm.png') }}" height="50"
                                                 alt="logo" class="auth-logo">
                                         </a>
-                                        <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">Car Parking</h4>
-                                        <p class="text-muted fw-medium mb-0">Sign in to continue panel</p>
+                                        <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">Happy Parking</h4>
+                                        <p class="text-muted fw-medium mb-0">Sign in to continue Happy Parking</p>
                                     </div>
                                 </div>
                                 <div class="card-body pt-0">
