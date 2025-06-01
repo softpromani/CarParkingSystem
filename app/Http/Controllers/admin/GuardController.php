@@ -19,7 +19,7 @@ class GuardController extends Controller
     public function index()
     {
 
-        $users = User::role('guard')->all();
+        $users = User::role('guard')->get();
 
         return view('admin.guard.index', compact('users'));
     }
@@ -83,7 +83,7 @@ class GuardController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::role('guard')->with('parking_guard.parking')->findOrFail($id);
+        $user = User::with('parking_guard.parking')->findOrFail($id);
         $parkings = Parking::all();
         return view('admin.guard.create', compact('user', 'parkings'));
     }
