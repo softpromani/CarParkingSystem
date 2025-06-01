@@ -19,7 +19,7 @@ class GuardController extends Controller
     public function index()
     {
 
-        $users = User::all();
+        $users = User::role('guard')->all();
 
         return view('admin.guard.index', compact('users'));
     }
@@ -38,32 +38,36 @@ class GuardController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'first_name'     => 'required|string|max:255',
-        'last_name'      => 'required|string|max:255',
-        'email'          => 'nullable|email|unique:users,email',
-        'mobile_number'  => 'nullable|string|max:20',
-        'parking_id'     => 'nullable|exists:parkings,id',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'first_name'     => 'required|string|max:255',
+            'last_name'      => 'required|string|max:255',
+            'email'          => 'nullable|email|unique:users,email',
+            'mobile_number'  => 'nullable|string|max:20',
+            'parking_id'     => 'nullable|exists:parkings,id',
+        ]);
 
-    // Step 1: Create the user
-    $user = User::create([
-        'first_name'    => $validatedData['first_name'],
-        'last_name'     => $validatedData['last_name'],
-        'email'         => $validatedData['email'],
-        'password'      => Hash::make('12345678'), // default password
-        'mobile_number' => $validatedData['mobile_number'],
-    ]);
+        // Step 1: Create the user
+        $user = User::create([
+            'first_name'    => $validatedData['first_name'],
+            'last_name'     => $validatedData['last_name'],
+            'email'         => $validatedData['email'],
+            'password'      => Hash::make('12345678'), // default password
+            'mobile_number' => $validatedData['mobile_number'],
+        ]);
 
-    // Step 2: Map the guard to a parking
-    GuardParkingMap::create([
-        'parking_id'  => $validatedData['parking_id'],
-    ]);
+        // Step 2: Assign the 'guard' role to the user
+        $user->assignRole('guard');
 
-    toast('Guard Created Successfully!', 'success');
-    return redirect()->route('admin.guard.index');
-}
+        // Step 2: Map the guard to a parking
+        GuardParkingMap::create([
+            'parking_id'  => $validatedData['parking_id'],
+            'guard_id' => $user->id
+        ]);
+
+        toast('Guard Created Successfully!', 'success');
+        return redirect()->route('admin.guard.index');
+    }
 
 
     /**
@@ -79,7 +83,7 @@ class GuardController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::with('parking_guard.parking')->findOrFail($id);
+        $user = User::role('guard')->with('parking_guard.parking')->findOrFail($id);
         $parkings = Parking::all();
         return view('admin.guard.create', compact('user', 'parkings'));
     }

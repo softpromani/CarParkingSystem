@@ -39,12 +39,12 @@
                                             <img src="{{ asset('admin/assets/images/logo-sm.png') }}" height="50"
                                                 alt="logo" class="auth-logo">
                                         </a>
-                                        <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">Let's Get Started Mifty</h4>
-                                        <p class="text-muted fw-medium mb-0">Sign in to continue to Mifty.</p>
+                                        <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">Car Parking</h4>
+                                        <p class="text-muted fw-medium mb-0">Sign in to continue panel</p>
                                     </div>
                                 </div>
                                 <div class="card-body pt-0">
-                                    <<form class="my-4" action="{{ route('login.submit') }}" method="POST">
+                                    <form class="my-4" action="{{ route('login.submit') }}" method="POST">
                                         @csrf
 
                                         <div class="form-group mb-2">
@@ -83,7 +83,7 @@
                                             </div><!--end col-->
                                         </div> <!--end form-group-->
                                     </form><!--end form-->
-                                    <div class="text-center  mb-2">
+                                    {{-- <div class="text-center  mb-2">
                                         <p class="text-muted">Don't have an account ? <a href="auth-register.html"
                                                 class="text-primary ms-2">Free Resister</a></p>
                                         <h6 class="px-3 d-inline-block">Or Login With</h6>
@@ -101,7 +101,7 @@
                                             class="d-flex justify-content-center align-items-center thumb-md bg-danger-subtle text-danger rounded-circle">
                                             <i class="fab fa-google align-self-center"></i>
                                         </a>
-                                    </div>
+                                    </div> --}}
                                 </div><!--end card-body-->
                             </div><!--end card-->
                         </div><!--end col-->
