@@ -13,7 +13,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
 
-        // Route::post('guard/logout', [AuthController::class, 'logout']);
+        Route::post('guard/logout', [AuthController::class, 'logout']);
 
         Route::get('/profile', [AuthController::class, 'viewProfile']);
     Route::post('/profile/update', [AuthController::class, 'updateProfile']);
