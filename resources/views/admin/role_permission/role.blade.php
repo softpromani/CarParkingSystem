@@ -1,5 +1,3 @@
-
-
 @extends('admin.includes.master')
 @section('title', 'Role')
 @section('content')
@@ -29,27 +27,28 @@
                         </div>
                     </div>
                 </div>
-                <form action="{{isset($role) ? route('admin.role.update', $role->id) : route('admin.role.store') }}" method="post">
+                <form action="{{ isset($role) ? route('admin.role.update', $role->id) : route('admin.role.store') }}"
+                    method="post">
                     @csrf
-                    @if(isset($role))
-                    @method('PUT')
-                @endif
+                    @if (isset($role))
+                        @method('PUT')
+                    @endif
                     <div class="card-body">
                         <div class="row align-items-end">
                             <div class="col-md-4">
-                                <x-input-box name="name" id="name" label="Name" value="{{ old('name', $role->name ?? '') }}" required />
+                                <x-input-box name="name" id="name" label="Name"
+                                    value="{{ old('name', $role->name ?? '') }}" required />
 
 
                             </div>
                             <div class="col-md-1">
                                 <button class="btn btn-primary">Submit</button>
                             </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
-
-    </div>
-    </div>
     </div>
 
     <div class="row justify-content-center">
@@ -71,35 +70,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($roles as  $role)
-                                <tr>
-                                    <th scope="row">{{$loop->iteration }}</th>
-                                    <td>{{$role->name ?? '' }}</td>
-                                     <td>
-                                        <div class="dropstart">
-                                            <button class="btn btn-sm bg-white" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
+                                @foreach ($roles as $role)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $role->name ?? '' }}</td>
+                                        <td>
+                                            <div class="dropstart">
+                                                <button class="btn btn-sm bg-white" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
 
-                                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="{{route('admin.role.edit', $role->id) }}">Edit</a></li>
-                              <li>
-                                <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); confirmDelete({{ $role->id }})">
-                                    Delete
-                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('admin.role.edit', $role->id) }}">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item text-danger" href="#"
+                                                            onclick="event.preventDefault(); confirmDelete({{ $role->id }})">
+                                                            Delete
+                                                        </a>
 
-                                <form id="delete-form-{{ $role->id }}" action="{{ route('admin.role.destroy', $role->id) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </li>
-                                            </ul>
-                                        </div>
+                                                        <form id="delete-form-{{ $role->id }}"
+                                                            action="{{ route('admin.role.destroy', $role->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
 
-                                </tr>
-                               @endforeach
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

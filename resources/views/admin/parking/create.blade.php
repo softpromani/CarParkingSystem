@@ -80,6 +80,11 @@
                                     value="{{ old('motorcycle_count', $editparking->motorcycle_count ?? '') }}" required />
                             </div>
                             <div class="col-md-4 mt-2">
+                                <x-input-box name="heavy_vehicle_count" label="Heavy Vehicle Count"
+                                    placeholder="Enter heavy Vehicle count"
+                                    value="{{ old('heavy_vehicle_count', $editparking->heavy_vehicle_count ?? '') }}"  />
+                            </div>
+                            <div class="col-md-4 mt-2">
                                 <x-input-box name="car_price" label="Car Price" placeholder="Enter car price"
                                     value="{{ old('car_price', $editparking->car_price ?? '') }}" required />
                             </div>
@@ -87,6 +92,11 @@
                                 <x-input-box name="motorcycle_price" label="Motorcycle price"
                                     placeholder="Enter motorcycle price"
                                     value="{{ old('motorcycle_price', $editparking->motorcycle_price ?? '') }}" required />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <x-input-box name="heavy_vehicle_price" label="Heavy Vehicle price"
+                                    placeholder="Enter heavy vehicle price"
+                                    value="{{ old('heavy_vehicle_price', $editparking->heavy_vehicle_price ?? '') }}" required />
                             </div>
                             <div class="col-md-4 mt-2">
                                 <x-input-box name="latitude" label="Latitude" placeholder="Enter latitude"
@@ -108,7 +118,7 @@
                                     label="Parking Facilities"
                                     :options="$parkings->pluck('name', 'id')->toArray()"
                                     :selected="old('parkings', $selectedFacilities ?? [])"
-                                    :required="true"
+                                    
                                 />
                             </div>
 

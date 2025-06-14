@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\GuardParkingMap;
-use App\Models\Parking;
 use App\Models\User;
+use App\Models\Parking;
 use Illuminate\Http\Request;
+use App\Models\GuardParkingMap;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -52,11 +52,10 @@ class GuardController extends Controller
             'first_name'    => $validatedData['first_name'],
             'last_name'     => $validatedData['last_name'],
             'email'         => $validatedData['email'],
-            'password'      => Hash::make('12345678'), // default password
+            'password'      => Hash::make('12345678'), 
             'mobile_number' => $validatedData['mobile_number'],
+            'created_by' =>'Admin',
         ]);
-
-        // Step 2: Assign the 'guard' role to the user
         $user->assignRole('guard');
 
         // Step 2: Map the guard to a parking

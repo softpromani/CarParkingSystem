@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Parking;
-use App\Models\ParkingFacility;
 use App\Models\User;
+use App\Models\Parking;
 use Illuminate\Http\Request;
+use App\Models\ParkingFacility;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -59,6 +59,8 @@ class ParkingController extends Controller
             'motorcycle_count'  => 'nullable|integer',
             'car_price'         => 'nullable|numeric',
             'motorcycle_price'  => 'nullable|numeric',
+            'heavy_vehicle_count'  => 'nullable|numeric',
+            'heavy_vehicle_price'  => 'nullable|numeric', 
             'latitude'          => 'nullable|string',
             'longitude'         => 'nullable|string',
             'charge_unit'         => 'nullable|numeric',
@@ -84,10 +86,11 @@ class ParkingController extends Controller
             'motorcycle_count'  => $validated['motorcycle_count'],
             'totalspace_count'  => $validated['car_count'],
             'car_price'         => $validated['car_price'],
-            'motorcycle_price'  => $validated['motorcycle_price'],
+            'heavy_vehicle_count'  => $validated['heavy_vehicle_count'],
+            'heavy_vehicle_price'  => $validated['heavy_vehicle_price'],
             'latitude'          => $validated['latitude'],
             'longitude'         => $validated['longitude'],
-             'charge_unit'         => $validated['charge_unit'],
+            'charge_unit'         => $validated['charge_unit'],
             'image' => $imagePath,
 
         ]);
