@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
@@ -15,8 +14,8 @@ class WalletController extends Controller
     public function index()
     {
         $amounts = WalletHistory::all();
-        $users = User::all();
-        return view('admin.wallet.add-amount', compact('amounts','users'));
+        $users   = User::all();
+        return view('admin.wallet.add-amount', compact('amounts', 'users'));
     }
 
     /**
@@ -34,19 +33,21 @@ class WalletController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
-            'amount' => 'required',
+            'amount'  => 'required',
 
         ]);
 
         $wallet = WalletHistory::create([
-            'user_id' => $request['user_id'],
-            'amount' => $request['amount'],
-            'type' => 'credit',
-            'created_by' => 1
+            'user_id'        => $request['user_id'],
+            'payment_method' => 'offline',
+            'amount'         => $request['amount'],
+            'type'           => 'credit',
+            'note'           => 'Amount Added By Admin',
+            'created_by'     => auth()->id(),
         ]);
 
         toast('Amount added successfully!', 'Success');
-        return redirect()->route('admin.wallet.index');
+        return redirect()->back();
     }
 
     /**

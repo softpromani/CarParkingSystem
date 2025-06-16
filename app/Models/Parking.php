@@ -12,5 +12,8 @@ class Parking extends Model
 {
     return $this->belongsToMany(ParkingFacility::class, 'parking_facility_maps', 'parking_id', 'parking_facility_id');
 }
+public function slots(){
+    return $this->hasMany(ParkingSlot::class,'parking_id');
+}
 
 }

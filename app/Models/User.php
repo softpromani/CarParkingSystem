@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -19,7 +18,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $guarded = [];
+    protected $guarded = ['id', 'wallet_amount'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -40,19 +39,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
 
-    function getNameAttribute()
+    public function getNameAttribute()
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
+    public function parking_guard()
+    {
 
-        function parking_guard(){
+        return $this->hasOne(GuardParkingMap::class, 'guard_id');
 
-            return $this->hasOne(GuardParkingMap::class,'guard_id');
-            
-        }
+    }
 }

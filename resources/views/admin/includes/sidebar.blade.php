@@ -28,7 +28,6 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-
                     @endcanany
                     @canany(['god_eye', 'god_eye_create', 'god_eye_read', 'god_eye_edit', 'god_eye_delete'])
                         <li class="nav-item">
@@ -119,8 +118,8 @@
                             </a>
                         </li>
                     @endcanany
-                    @canany(['parking_list', 'parking_list_create', 'parking_list_read', 'parking_list_edit',
-                        'parking_list_delete'])
+                    @canany(['parking', 'parking_create', 'parking_read', 'parking_edit',
+                        'parking_delete'])
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.parking.index') }}">
                                 <i class="iconoir-chat-bubble menu-icon"></i>
@@ -128,8 +127,6 @@
                             </a>
                         </li>
                     @endcanany
-                    @canany(['model', 'model_create', 'model_read', 'model_edit', 'model_delete', 'brand',
-                        'brand_create', 'brand_read', 'brand_edit', 'brand_delete'])
                         <li class="nav-item">
                             <a class="nav-link" href="#sidebarVehicle" data-bs-toggle="collapse" role="button"
                                 aria-expanded="false" aria-controls="sidebarAnalytics">
@@ -138,31 +135,21 @@
                             </a>
                             <div class="collapse " id="sidebarVehicle">
                                 <ul class="nav flex-column">
-                                    @canany(['brand', 'brand_create', 'brand_read', 'brand_edit', 'brand_delete'])
                                         <li class="nav-item">
                                             <a href="{{ route('admin.brand.index') }}" class="nav-link ">Brand</a>
                                         </li>
-                                    @endcanany
-                                    @canany(['model', 'model_create', 'model_read', 'model_edit', 'model_delete'])
                                         <li class="nav-item">
                                             <a href="{{ route('admin.model.index') }}" class="nav-link ">Model</a>
                                         </li>
-                                    @endcanany
                                 </ul><!--end nav-->
                             </div>
                         </li>
-                    @endcanany
 
 
                     <li class="menu-label mt-2">
                         <span>Setting Management</span>
                     </li>
-                    @canany(['business_setting', 'business_setting_create', 'business_setting_read',
-                        'business_setting_edit', 'business_setting_delete', 'business_page', 'business_page_create',
-                        'business_page_read', 'business_page_edit', 'business_page_delete', 'social_media_link',
-                        'social_media_link_create', 'social_media_link_read', 'social_media_link_edit',
-                        'social_media_link_delete', 'third_party_api', 'third_party_api_create', 'third_party_api_read',
-                        'third_party_api_edit', 'third_party_api_delete'])
+                    @canany(['business_setting'])
                         <li class="nav-item">
                             <a class="nav-link" href="#sidebarBusinessSetup" data-bs-toggle="collapse" role="button"
                                 aria-expanded="false" aria-controls="sidebarAnalytics">
@@ -171,94 +158,70 @@
                             </a>
                             <div class="collapse " id="sidebarBusinessSetup">
                                 <ul class="nav flex-column">
-                                    @canany(['business_setting', 'business_setting_create', 'business_setting_read',
-                                        'business_setting_edit', 'business_setting_delete'])
                                         <li class="nav-item">
                                             <a href="{{ route('admin.business-setting.index') }}" class="nav-link ">Business
                                                 Setting</a>
                                         </li>
-                                    @endcanany
-                                    @canany(['business_page', 'business_page_create', 'business_page_read',
-                                        'business_page_edit', 'business_page_delete'])
                                         <li class="nav-item">
                                             <a href="{{ route('admin.business-page.index') }}" class="nav-link ">Business
                                                 Pages</a>
                                         </li>
-                                    @endcanany
-                                    @canany(['social_media_link', 'social_media_link_create', 'social_media_link_read',
-                                        'social_media_link_edit', 'social_media_link_delete'])
                                         <li class="nav-item">
                                             <a href="{{ route('admin.social-media.index') }}" class="nav-link ">Social Media
                                                 Links</a>
                                         </li>
-                                    @endcanany
-                                    @canany(['third_party_api', 'third_party_api_create', 'third_party_api_read',
-                                        'third_party_api_edit', 'third_party_api_delete'])
                                         <li class="nav-item">
                                             <a href="{{ route('admin.third-party.index') }}" class="nav-link ">Third Party
                                                 API</a>
                                         </li>
-                                    @endcanany
                                 </ul>
                             </div>
                         </li>
                     @endcanany
 
-                    @role(['admin','super admin'])
-                    @canany(['role', 'role_create', 'role_read', 'role_edit', 'role_delete', 'permission',
-                        'permission_create', 'permission_read', 'permission_edit', 'permission_delete',
-                        'role_has_permission', 'role_has_permission_create', 'role_has_permission_read',
-                        'role_has_permission_edit', 'role_has_permission_delete'])
-                        <li class="nav-item">
-                            <a class="nav-link" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
-                                aria-expanded="false" aria-controls="sidebarAnalytics">
-                                <i class="iconoir-reports menu-icon"></i>
-                                <span>Role & Permission</span>
-                            </a>
-                            <div class="collapse " id="sidebarAnalytics">
-                                <ul class="nav flex-column">
-                                    @canany(['role', 'role_create', 'role_read', 'role_edit', 'role_delete'])
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.role.index') }}" class="nav-link ">Role</a>
-                                        </li>
-                                    @endcanany
-                                    @canany(['permission', 'permission_create', 'permission_read', 'permission_edit',
-                                        'permission_delete'])
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.permissions.index') }}" class="nav-link ">Permission</a>
-                                        </li>
-                                    @endcanany
-                                    @canany(['role_has_permission', 'role_has_permission_create',
-                                        'role_has_permission_read', 'role_has_permission_edit', 'role_has_permission_delete'])
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.rolePermission') }}" class="nav-link ">Role Has
-                                                Permission</a>
-                                        </li>
-                                    @endcanany
-                                </ul><!--end nav-->
-                            </div>
-                        </li>
-                        @endcanany
-                        
-                        @endrole
-
-
-
-
-
-                        @canany(['order_status', 'order_status_create', 'order_status_read', 'order_status_edit',
-                            'order_status_delete'])
+                    @role(['admin', 'super admin'])
+                        @canany(['role', 'role_create', 'role_read', 'role_edit', 'role_delete', 'permission',
+                            'permission_create', 'permission_read', 'permission_edit', 'permission_delete',
+                            'role_has_permission', 'role_has_permission_create', 'role_has_permission_read',
+                            'role_has_permission_edit', 'role_has_permission_delete'])
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.order-status.index') }}">
-                                    <i class="iconoir-chat-bubble menu-icon"></i>
-                                    <span>Order Status</span>
+                                <a class="nav-link" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="false" aria-controls="sidebarAnalytics">
+                                    <i class="iconoir-reports menu-icon"></i>
+                                    <span>Role & Permission</span>
                                 </a>
+                                <div class="collapse " id="sidebarAnalytics">
+                                    <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a href="{{ route('admin.role.index') }}" class="nav-link ">Role</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{ route('admin.permissions.index') }}" class="nav-link ">Permission</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{ route('admin.rolePermission') }}" class="nav-link ">Role Has
+                                                    Permission</a>
+                                            </li>
+                                    </ul><!--end nav-->
+                                </div>
                             </li>
                         @endcanany
 
-                    </ul><!--end navbar-nav--->
+                    @endrole
 
-                </div>
-            </div><!--end startbar-collapse-->
-        </div><!--end startbar-menu-->
-    </div>
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.order-status.index') }}">
+                                <i class="iconoir-chat-bubble menu-icon"></i>
+                                <span>Order Status</span>
+                            </a>
+                        </li>
+
+                </ul><!--end navbar-nav--->
+
+            </div>
+        </div><!--end startbar-collapse-->
+    </div><!--end startbar-menu-->
+</div>

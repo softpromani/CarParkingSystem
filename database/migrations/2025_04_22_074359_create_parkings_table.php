@@ -18,14 +18,12 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('address')->nullable();
             $table->text('description')->nullable();
-            $table->string('car_count')->nullable();
-            $table->string('motorcycle_count')->nullable();
-            $table->string('totalspace_count')->nullable();
-            $table->decimal('car_price',10,2)->nullable();
-            $table->decimal('motorcycle_price',10,2)->nullable();
+            $table->decimal('car_price', 10, 2)->default(0.00);
+            $table->decimal('motorcycle_price', 10, 2)->default(0.00);
+            $table->decimal('heavy_vehicle_price', 10, 2)->default(0.00);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-             $table->decimal('charge_unit',10,2)->nullable();
+            $table->decimal('charge_unit', 10, 2)->nullable();
             $table->tinyInteger('status')->default(1);
             $table->string('created_by')->nullable();
             $table->softDeletes();
@@ -38,6 +36,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('parkings');
+        Schema::enableForeignKeyConstraints();
     }
 };

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -14,10 +14,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('otp')->nullable()->after('status');
             $table->timestamp('otp_expires_at')->nullable()->after('otp');
-        });
-        Schema::table('parkings', function (Blueprint $table) {
-            $table->string('heavy_vehicle_count')->nullable()->after('motorcycle_price');
-            $table->timestamp('heavy_vehicle_price')->nullable()->after('heavy_vehicle_count');
         });
     }
 

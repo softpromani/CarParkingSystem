@@ -1,12 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\admin;
 
-use App\Models\User;
-use App\Models\Parking;
-use Illuminate\Http\Request;
-use App\Models\ParkingFacility;
 use App\Http\Controllers\Controller;
+use App\Models\Parking;
+use App\Models\ParkingFacility;
+use App\Models\ParkingSection;
+use App\Models\ParkingSlot;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -28,7 +29,8 @@ class ParkingController extends Controller
                 ->addColumn('action', function ($row) {
                     return '
                         <a href="' . route('admin.parking.edit', $row->id) . '" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i></a>
-                        <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>';
+                        <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>
+                        <a href="' . route('admin.parking.slot', $row->id) . '" class="btn"><i class="fa-solid fa-square-parking fa-2x"></i></a>';
                 })
                 ->rawColumns(['action', 'image'])
                 ->make(true);
@@ -41,9 +43,10 @@ class ParkingController extends Controller
      */
     public function create()
     {
-        $users = User::all();
-        $parkings = ParkingFacility::all();
-        return view('admin.parking.create', compact('users', 'parkings'));
+        $users          = User::all();
+        $parkings       = ParkingFacility::all();
+        $parkingSection = ParkingSection::all();
+        return view('admin.parking.create', compact('users', 'parkings', 'parkingSection'));
     }
     /**
      * Store a newly created resource in storage.
@@ -51,21 +54,18 @@ class ParkingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id'           => 'required|exists:users,id',
-            'name'              => 'nullable|string|max:255',
-            'address'           => 'nullable|string|max:255',
-            'description'       => 'nullable|string|max:1000',
-            'car_count'         => 'nullable|integer',
-            'motorcycle_count'  => 'nullable|integer',
-            'car_price'         => 'nullable|numeric',
-            'motorcycle_price'  => 'nullable|numeric',
-            'heavy_vehicle_count'  => 'nullable|numeric',
-            'heavy_vehicle_price'  => 'nullable|numeric', 
-            'latitude'          => 'nullable|string',
-            'longitude'         => 'nullable|string',
+            'user_id'             => 'required|exists:users,id',
+            'name'                => 'nullable|string|max:255',
+            'address'             => 'nullable|string|max:255',
+            'description'         => 'nullable|string|max:1000',
+            'car_price'           => 'nullable|numeric',
+            'motorcycle_price'    => 'nullable|numeric',
+            'heavy_vehicle_price' => 'nullable|numeric',
+            'latitude'            => 'nullable|string',
+            'longitude'           => 'nullable|string',
             'charge_unit'         => 'nullable|numeric',
-            'created_by'        => 'nullable|string',
-            'image'        => 'nullable',
+            'created_by'          => 'nullable|string',
+            'image'               => 'nullable',
 
         ]);
 
@@ -75,23 +75,18 @@ class ParkingController extends Controller
             $imagePath = $request->file('image')->store('parking', 'public');
         }
 
-
         // Save parking data
         $parking = Parking::create([
-            'user_id'           => $validated['user_id'],
-            'name'              => $validated['name'],
-            'address'           => $validated['address'],
-            'description'       => $validated['description'],
-            'car_count'         => $validated['car_count'],
-            'motorcycle_count'  => $validated['motorcycle_count'],
-            'totalspace_count'  => $validated['car_count'],
-            'car_price'         => $validated['car_price'],
-            'heavy_vehicle_count'  => $validated['heavy_vehicle_count'],
-            'heavy_vehicle_price'  => $validated['heavy_vehicle_price'],
-            'latitude'          => $validated['latitude'],
-            'longitude'         => $validated['longitude'],
+            'user_id'             => $validated['user_id'],
+            'name'                => $validated['name'],
+            'address'             => $validated['address'],
+            'description'         => $validated['description'],
+            'car_price'           => $validated['car_price'],
+            'heavy_vehicle_price' => $validated['heavy_vehicle_price'],
+            'latitude'            => $validated['latitude'],
+            'longitude'           => $validated['longitude'],
             'charge_unit'         => $validated['charge_unit'],
-            'image' => $imagePath,
+            'image'               => $imagePath,
 
         ]);
 
@@ -100,8 +95,6 @@ class ParkingController extends Controller
         toast('Parking Created Successfully!', 'success');
         return redirect()->route('admin.parking.index');
     }
-
-
 
     /**
      * Display the specified resource.
@@ -119,7 +112,7 @@ class ParkingController extends Controller
         $parkings = ParkingFacility::all(); // correct this line
 
         $editparking = Parking::findOrFail($id);
-        $users = User::all();
+        $users       = User::all();
 
         return view('admin.parking.create', compact('parkings', 'editparking', 'users'));
     }
@@ -130,18 +123,16 @@ class ParkingController extends Controller
     public function update(Request $request, Parking $parking)
     {
         $validated = $request->validate([
-            'user_id'           => 'required|exists:users,id',
-            'name'              => 'nullable|string|max:255',
-            'address'           => 'nullable|string|max:255',
-            'description'       => 'nullable|string|max:1000',
-            'car_count'         => 'nullable|integer',
-            'motorcycle_count'  => 'nullable|integer',
-            'car_price'         => 'nullable|numeric',
-            'motorcycle_price'  => 'nullable|numeric',
-            'latitude'          => 'nullable|string',
-            'longitude'         => 'nullable|string',
-            'charge_unit'         => 'nullable|numeric',
-            'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'user_id'          => 'required|exists:users,id',
+            'name'             => 'nullable|string|max:255',
+            'address'          => 'nullable|string|max:255',
+            'description'      => 'nullable|string|max:1000',
+            'car_price'        => 'nullable|numeric',
+            'motorcycle_price' => 'nullable|numeric',
+            'latitude'         => 'nullable|string',
+            'longitude'        => 'nullable|string',
+            'charge_unit'      => 'nullable|numeric',
+            'image'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         // Handle image update
@@ -152,34 +143,29 @@ class ParkingController extends Controller
             }
 
             // Upload new image
-            $imagePath = $request->file('image')->store('parking', 'public');
+            $imagePath          = $request->file('image')->store('parking', 'public');
             $validated['image'] = $imagePath;
         }
 
         // Update parking data
         $parking->update([
-            'user_id'           => $validated['user_id'],
-            'name'              => $validated['name'],
-            'address'           => $validated['address'],
-            'description'       => $validated['description'],
-            'car_count'         => $validated['car_count'],
-            'motorcycle_count'  => $validated['motorcycle_count'],
-            'totalspace_count'  => $validated['car_count'],
-            'car_price'         => $validated['car_price'],
-            'motorcycle_price'  => $validated['motorcycle_price'],
-            'latitude'          => $validated['latitude'],
-            'longitude'         => $validated['longitude'],
-            'charge_unit'         => $validated['charge_unit'],
-            'image'             => $validated['image'] ?? $parking->image, // Keep old if not changed
+            'user_id'          => $validated['user_id'],
+            'name'             => $validated['name'],
+            'address'          => $validated['address'],
+            'description'      => $validated['description'],
+            'car_price'        => $validated['car_price'],
+            'motorcycle_price' => $validated['motorcycle_price'],
+            'latitude'         => $validated['latitude'],
+            'longitude'        => $validated['longitude'],
+            'charge_unit'      => $validated['charge_unit'],
+            'image'            => $validated['image'] ?? $parking->image, // Keep old if not changed
         ]);
-
 
         $parking->facilities()->sync($request->parking_facility_id);
 
         toast('Parking Updated Successfully!', 'success');
         return redirect()->route('admin.parking.index');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -198,8 +184,39 @@ class ParkingController extends Controller
         $parking->delete();
 
         return response()->json([
-            'status' => true,
-            'message' => "User deleted Successfully!"
+            'status'  => true,
+            'message' => "User deleted Successfully!",
         ]);
     }
+
+    public function parkingSlot($parkingId)
+    {
+        $parking = Parking::findorFail($parkingId);
+        $slots   = $parking->slots;
+        return view('admin.parking.space', compact('parking', 'slots'));
+    }
+    public function parkingSlotSave(Request $request)
+    {
+        $data = $request->validate([
+            'parking_id'  => 'required|exists:parkings,id',
+            'layout_data' => 'required|string',
+        ]);
+        $slots = collect(json_decode($data['layout_data'], true));
+        ParkingSlot::where('parking_id', $data['parking_id'])->delete();
+        foreach ($slots as $item) {
+            ParkingSlot::create([
+                'parking_id' => $data['parking_id'],
+                'type'       => $item['type'],
+                'label'      => $item['label'],
+                'x'          => $item['x'],
+                'y'          => $item['y'],
+                'width'      => $item['width'],
+                'height'     => $item['height'],
+                'rotation'   => $item['rotation'],
+                'status'     => in_array($item['type'], ['car', 'bike', 'heavy']) ? 'available' : 'reserved',
+            ]);
+        }
+        return back()->with('success', 'Layout saved successfully.');
+    }
+
 }

@@ -71,20 +71,6 @@
                                     value="{{ old('description', $editparking->description ?? '') }}" required />
                             </div>
                             <div class="col-md-4 mt-2">
-                                <x-input-box name="car_count" label="Car Count" placeholder="Enter car count"
-                                    value="{{ old('car_count', $editparking->car_count ?? '') }}" required />
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <x-input-box name="motorcycle_count" label="Motorcycle Count"
-                                    placeholder="Enter motorcycle count"
-                                    value="{{ old('motorcycle_count', $editparking->motorcycle_count ?? '') }}" required />
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <x-input-box name="heavy_vehicle_count" label="Heavy Vehicle Count"
-                                    placeholder="Enter heavy Vehicle count"
-                                    value="{{ old('heavy_vehicle_count', $editparking->heavy_vehicle_count ?? '') }}"  />
-                            </div>
-                            <div class="col-md-4 mt-2">
                                 <x-input-box name="car_price" label="Car Price" placeholder="Enter car price"
                                     value="{{ old('car_price', $editparking->car_price ?? '') }}" required />
                             </div>
@@ -118,12 +104,11 @@
                                     label="Parking Facilities"
                                     :options="$parkings->pluck('name', 'id')->toArray()"
                                     :selected="old('parkings', $selectedFacilities ?? [])"
-                                    
-                                />
-                            </div>
 
+                                />
                         </div>
 
+                        </div>
                         <button class="btn btn-primary mt-2"> {{ isset($editparking) ? 'Update' : 'Submit' }}</button>
                     </form>
 

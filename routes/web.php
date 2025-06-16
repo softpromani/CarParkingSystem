@@ -1,30 +1,30 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AdminSettingController;
+use App\Http\Controllers\admin\auth\LoginController;
+use App\Http\Controllers\admin\auth\RegisterController;
+use App\Http\Controllers\admin\BusinessPageController;
+use App\Http\Controllers\admin\BusinessSettingController;
+use App\Http\Controllers\admin\CoupanController;
+use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\EnquiryController;
+use App\Http\Controllers\admin\faqController;
+use App\Http\Controllers\admin\GodEyeController;
+use App\Http\Controllers\admin\GuardController;
+use App\Http\Controllers\admin\ParkingController;
+use App\Http\Controllers\admin\ParkingFacilityController;
+use App\Http\Controllers\admin\PermissionController;
+use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\admin\RoleController;
+use App\Http\Controllers\admin\SocialMediaController;
+use App\Http\Controllers\admin\StatusController;
+use App\Http\Controllers\admin\ThirdPartyController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\WalletController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ModelController;
-use App\Http\Controllers\admin\faqController;
-use App\Http\Controllers\admin\RoleController;
-use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\GuardController;
-use App\Http\Controllers\admin\CoupanController;
-use App\Http\Controllers\admin\GodEyeController;
-use App\Http\Controllers\admin\StatusController;
-use App\Http\Controllers\admin\WalletController;
-use App\Http\Controllers\admin\EnquiryController;
-use App\Http\Controllers\admin\ParkingController;
-use App\Http\Controllers\admin\ProfileController;
-use App\Http\Controllers\admin\CustomerController;
-use App\Http\Controllers\admin\auth\LoginController;
-use App\Http\Controllers\admin\PermissionController;
-use App\Http\Controllers\admin\ThirdPartyController;
-use App\Http\Controllers\admin\SocialMediaController;
-use App\Http\Controllers\admin\AdminSettingController;
-use App\Http\Controllers\admin\BusinessPageController;
-use App\Http\Controllers\admin\auth\RegisterController;
-use App\Http\Controllers\admin\BusinessSettingController;
-use App\Http\Controllers\admin\ParkingFacilityController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware('auth')->as('admin.')->group(function () {
 
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('god-eye', GodEyeController::class);
@@ -58,6 +58,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('business-setting', BusinessSettingController::class);
     Route::resource('admin-setting', AdminSettingController::class);
     Route::resource('parking-facility', ParkingFacilityController::class);
+    Route::get('parking/slot/{parkingId}', [ParkingController::class, 'parkingSlot'])->name('parking.slot');
+    Route::post('parking/slot/save', [ParkingController::class, 'parkingSlotSave'])->name('parking.slot-save');
     Route::resource('parking', ParkingController::class);
     Route::resource('business-page', BusinessPageController::class);
     Route::resource('social-media', SocialMediaController::class);
@@ -69,5 +71,4 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('customer', CustomerController::class);
     Route::resource('order-status', StatusController::class);
     Route::post('change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
-
 });
