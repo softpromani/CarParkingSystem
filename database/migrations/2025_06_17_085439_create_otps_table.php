@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parking_floors', function (Blueprint $table) {
+        Schema::create('otps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parking_id')->constrained()->onDelete('cascade');
-            $table->string('name');
+            $table->string('email_phone')->unique();
+            $table->string('otp', 8);
+            $table->timestamp('expiry_at');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parking_floors');
+        Schema::dropIfExists('otps');
     }
 };

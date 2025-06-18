@@ -83,6 +83,7 @@ class ParkingController extends Controller
             'description'         => $validated['description'],
             'car_price'           => $validated['car_price'],
             'heavy_vehicle_price' => $validated['heavy_vehicle_price'],
+            'motorcycle_price'    => $validated['motorcycle_price'],
             'latitude'            => $validated['latitude'],
             'longitude'           => $validated['longitude'],
             'charge_unit'         => $validated['charge_unit'],

@@ -85,14 +85,6 @@
                                     value="{{ old('heavy_vehicle_price', $editparking->heavy_vehicle_price ?? '') }}" required />
                             </div>
                             <div class="col-md-4 mt-2">
-                                <x-input-box name="latitude" label="Latitude" placeholder="Enter latitude"
-                                    value="{{ old('latitude', $editparking->latitude ?? '') }}" required />
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <x-input-box name="longitude" label="Longitude" placeholder="Enter longitude"
-                                    value="{{ old('longitude', $editparking->longitude ?? '') }}" required />
-                            </div>
-                            <div class="col-md-4 mt-2">
                                 <x-input-box name="charge_unit" label="Charge Units (in minutes)"
                                     placeholder="Enter Charge Unit"
                                     value="{{ old('charge_unit', $editparking->charge_unit ?? '') }}" required />
@@ -107,7 +99,18 @@
 
                                 />
                         </div>
-
+                         <div class="col-md-4 mt-2">
+                                <x-input-box name="latitude" label="Latitude" placeholder="Enter latitude"
+                                    value="{{ old('latitude', $editparking->latitude ?? '') }}" required />
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <x-input-box name="longitude" label="Longitude" placeholder="Enter longitude"
+                                    value="{{ old('longitude', $editparking->longitude ?? '') }}" required />
+                            </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="">Select Location on Map</label>
+                            <div id="map" style="height: 400px; width: 100%; border: 1px solid #ccc;"></div>
+                        </div>
                         </div>
                         <button class="btn btn-primary mt-2"> {{ isset($editparking) ? 'Update' : 'Submit' }}</button>
                     </form>
@@ -118,3 +121,48 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        let map, marker;
+
+        function initMap() {
+            const defaultLat = parseFloat(document.getElementsByName("latitude")[0]?.value) || 28.6139;
+            const defaultLng = parseFloat(document.getElementsByName("longitude")[0]?.value) || 77.2090;
+
+            const defaultLatLng = new google.maps.LatLng(defaultLat, defaultLng);
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: defaultLatLng,
+                zoom: 13,
+                mapId: "DEMO_MAP_ID" // You can generate your own Map ID if you want advanced styling
+            });
+
+            marker = new google.maps.marker.AdvancedMarkerElement({
+                position: defaultLatLng,
+                map: map,
+                gmpDraggable: true,
+                title: "Drag me!",
+            });
+
+            // When marker is dragged, update lat/lng
+            marker.addListener("dragend", (event) => {
+                const pos = event.latLng;
+                document.getElementsByName("latitude")[0].value = pos.lat().toFixed(6);
+                document.getElementsByName("longitude")[0].value = pos.lng().toFixed(6);
+            });
+
+            // When map is clicked, move marker and update lat/lng
+            map.addListener("click", (event) => {
+                marker.position = event.latLng;
+                document.getElementsByName("latitude")[0].value = event.latLng.lat().toFixed(6);
+                document.getElementsByName("longitude")[0].value = event.latLng.lng().toFixed(6);
+            });
+        }
+    </script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIPxC0f7QBqjt-gkRXxhpLe0Kyk7KaQG8&callback=initMap&libraries=marker"
+        async defer>
+    </script>
+@endsection
+
