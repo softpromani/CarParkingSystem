@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\GeneralController;
 use App\Http\Controllers\api\vehicleOwner\ParkingController;
 use App\Http\Controllers\api\vehicleOwner\ProfileController;
 use App\Http\Controllers\api\vehicleOwner\VehicleController;
@@ -20,10 +21,16 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum', 'role:vehicle_owner'])->prefix('vehicle-owner')->as('vehicle-owner.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'getProfile']);
         Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
-        Route::resource('vehicle', VehicleController::class);
+        Route::resource('vehicle', VehicleController::class)->except(['index', 'create']);
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
             Route::get('slots/{parkingId}', 'slots')->name('slots');
         });
+    });
+
+    // general data fetch
+    Route::middleware('auth:sanctum')->prefix('general')->as('general.')->controller(GeneralController::class)->group(function () {
+        Route::get('brand/{search?}', 'getBrand');
+        Route::get('brand-model/{search?}', 'getBrandModel');
     });
 });
