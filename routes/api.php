@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\vehicleOwner\ParkingController;
 use App\Http\Controllers\api\vehicleOwner\ProfileController;
+use App\Http\Controllers\api\vehicleOwner\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -19,6 +20,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum', 'role:vehicle_owner'])->prefix('vehicle-owner')->as('vehicle-owner.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'getProfile']);
         Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
+        Route::resource('vehicle', VehicleController::class);
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
             Route::get('slots/{parkingId}', 'slots')->name('slots');

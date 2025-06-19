@@ -20,13 +20,14 @@ return new class extends Migration
             $table->unsignedBigInteger('vehicle_owner_id')->comment('id from user table');
             $table->unsignedBigInteger('booked_by')->comment('id from user table');
             $table->timestamp('booking_from_time');
-            $table->timestamp('booking_to_time');
+            $table->timestamp('booking_to_time')->nullable();
             $table->timestamp('park_in')->nullable();
             $table->timestamp('park_out')->nullable();
             $table->unsignedBigInteger('check_in_by')->nullable();
             $table->unsignedBigInteger('check_out_by')->nullable();
             $table->bigInteger('total_parked_time')->comment('in minute');
             $table->decimal('total_charge', 10, 2);
+            $table->json('price_breakup')->nullable();
             $table->timestamps();
         });
     }
