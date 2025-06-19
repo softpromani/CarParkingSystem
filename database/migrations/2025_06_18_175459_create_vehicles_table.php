@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->string('color')->nullable();
+            $table->integer('tyre')->default(2);
             $table->enum('type', ['bike', 'car', 'heavy-vehicle']);
             $table->timestamps();
         });

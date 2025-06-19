@@ -37,6 +37,7 @@ class VehicleRequest extends FormRequest
             'brand_id'            => 'nullable|integer|exists:brands,id|required_without:brand_name',
             'brand_name'          => 'nullable|string|required_without:brand_id',
             'color'               => 'sometimes|string',
+            'tyre'                => 'required|integer',
             'type'                => 'required|in:car,bike,heavy-vehicle',
         ];
 
