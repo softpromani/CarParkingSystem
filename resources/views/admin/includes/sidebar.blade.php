@@ -1,15 +1,60 @@
 <div class="startbar d-print-none">
+     <style>
+
+        body[data-sidebar-size="collapsed"] .logo-text {
+            display: none;
+        }
+        body[data-sidebar-size="collapsed"] .startbar:hover .logo-text {
+            display: inline-block;
+            position: absolute;
+            left: 80px;
+            white-space: nowrap;
+
+            padding: 5px 10px;
+
+            z-index: 2000;
+        }
+
+        .logo-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+    </style>
     <!--start brand-->
     <div class="brand">
-        <a href="#" class="logo">
-            <span>
-                <img src="{{ asset('admin/assets/images/logo-sm.png') }}" alt="logo-small" class="logo-sm">
+        
+      <div class="d-flex align-items-center">
+            {{-- Logo --}}
+            <a href="#" class="logo d-flex align-items-center">
+                <span>
+                    <img src="{{ getBusinessSetting('website_header_logo') &&
+                    Storage::disk('public')->exists(getBusinessSetting('website_header_logo'))
+                        ? asset('storage/' . getBusinessSetting('website_header_logo'))
+                        : asset('admin/assets/images/logo-sm.png') }}"
+                        alt="logo-small" class="logo-sm">
+                </span>
+
+                <span class="">
+                    <img src="{{ getBusinessSetting('website_header_logo') &&
+                    Storage::disk('public')->exists(getBusinessSetting('website_header_logo'))
+                        ? asset('storage/' . getBusinessSetting('website_header_logo'))
+                        : asset('admin/assets/images/logo-light.png') }}"
+                        alt="logo-large" class="logo-lg logo-light">
+                    <img src="{{ getBusinessSetting('website_header_logo') &&
+                    Storage::disk('public')->exists(getBusinessSetting('website_header_logo'))
+                        ? asset('storage/' . getBusinessSetting('website_header_logo'))
+                        : asset('admin/assets/images/logo-dark.png') }}"
+                        alt="logo-large" class="logo-lg logo-dark">
+                </span>
+            </a>
+
+            {{-- Header Text --}}
+            <span class="logo-text ms-2">
+                {{ getBusinessSetting('header_text') ?? 'My Website' }}
             </span>
-            <span class="">
-                <img src="{{ asset('admin/assets/images/logo-light.png') }}" alt="logo-large" class="logo-lg logo-light">
-                <img src="{{ asset('admin/assets/images/logo-dark.png') }}" alt="logo-large" class="logo-lg logo-dark">
-            </span>
-        </a>
+        </div>
     </div>
     <!--end brand-->
     <!--start startbar-menu-->
@@ -118,8 +163,7 @@
                             </a>
                         </li>
                     @endcanany
-                    @canany(['parking', 'parking_create', 'parking_read', 'parking_edit',
-                        'parking_delete'])
+                    @canany(['parking', 'parking_create', 'parking_read', 'parking_edit', 'parking_delete'])
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.parking.index') }}">
                                 <i class="iconoir-chat-bubble menu-icon"></i>
@@ -127,23 +171,23 @@
                             </a>
                         </li>
                     @endcanany
-                        <li class="nav-item">
-                            <a class="nav-link" href="#sidebarVehicle" data-bs-toggle="collapse" role="button"
-                                aria-expanded="false" aria-controls="sidebarAnalytics">
-                                <i class="iconoir-reports menu-icon"></i>
-                                <span>Vehicle Settings</span>
-                            </a>
-                            <div class="collapse " id="sidebarVehicle">
-                                <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.brand.index') }}" class="nav-link ">Brand</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.model.index') }}" class="nav-link ">Model</a>
-                                        </li>
-                                </ul><!--end nav-->
-                            </div>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sidebarVehicle" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarAnalytics">
+                            <i class="iconoir-reports menu-icon"></i>
+                            <span>Vehicle Settings</span>
+                        </a>
+                        <div class="collapse " id="sidebarVehicle">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.brand.index') }}" class="nav-link ">Brand</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.model.index') }}" class="nav-link ">Model</a>
+                                </li>
+                            </ul><!--end nav-->
+                        </div>
+                    </li>
 
 
                     <li class="menu-label mt-2">
@@ -158,22 +202,23 @@
                             </a>
                             <div class="collapse " id="sidebarBusinessSetup">
                                 <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.business-setting.index') }}" class="nav-link ">Business
-                                                Setting</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.business-page.index') }}" class="nav-link ">Business
-                                                Pages</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.social-media.index') }}" class="nav-link ">Social Media
-                                                Links</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.third-party.index') }}" class="nav-link ">Third Party
-                                                API</a>
-                                        </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.business-setting.index') }}" class="nav-link ">Business
+                                            Setting</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.business-page.index') }}" class="nav-link ">Business
+                                            Pages</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.social-media.index') }}" class="nav-link ">Social Media
+                                            Links</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.thirdPartyApi', 'mail_config') }}"
+                                            class="nav-link ">Third Party
+                                            API</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -192,32 +237,31 @@
                                 </a>
                                 <div class="collapse " id="sidebarAnalytics">
                                     <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a href="{{ route('admin.role.index') }}" class="nav-link ">Role</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('admin.permissions.index') }}" class="nav-link ">Permission</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('admin.rolePermission') }}" class="nav-link ">Role Has
-                                                    Permission</a>
-                                            </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.role.index') }}" class="nav-link ">Role</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.permissions.index') }}" class="nav-link ">Permission</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.rolePermission') }}" class="nav-link ">Role Has
+                                                Permission</a>
+                                        </li>
                                     </ul><!--end nav-->
                                 </div>
                             </li>
                         @endcanany
-
                     @endrole
 
 
 
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.order-status.index') }}">
-                                <i class="iconoir-chat-bubble menu-icon"></i>
-                                <span>Order Status</span>
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.order-status.index') }}">
+                            <i class="iconoir-chat-bubble menu-icon"></i>
+                            <span>Order Status</span>
+                        </a>
+                    </li>
 
                 </ul><!--end navbar-nav--->
 

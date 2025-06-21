@@ -5,14 +5,18 @@
 
 
     <meta charset="utf-8" />
-    <title>Login | Happy Parking</title>
+    <title>Login | {{ getBusinessSetting('header_text') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Happy Parking" name="description" />
     <meta content="" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.ico') }}">
+    <link rel="shortcut icon"
+        href="{{ getBusinessSetting('website_favicon') &&
+        Storage::disk('public')->exists(getBusinessSetting('website_favicon'))
+            ? asset('storage/' . getBusinessSetting('website_favicon'))
+            : asset('admin/assets/images/logo-sm.png') }}">
 
 
     <!-- App css -->
@@ -36,11 +40,16 @@
                                 <div class="card-body p-0 bg-black auth-header-box rounded-top">
                                     <div class="text-center p-3">
                                         <a href="index.html" class="logo logo-admin">
-                                            <img src="{{ asset('admin/assets/images/logo-sm.png') }}" height="50"
-                                                alt="logo" class="auth-logo">
+                                            <img src="{{ asset(
+                                                getBusinessSetting('website_header_logo') &&
+                                                Storage::disk('public')->exists(getBusinessSetting('website_header_logo'))
+                                                    ? asset('storage/' . getBusinessSetting('website_header_logo'))
+                                                    : 'admin/assets/images/logo-sm.png',
+                                            ) }}"
+                                                height="50" alt="logo" class="auth-logo">
                                         </a>
-                                        <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">Happy Parking</h4>
-                                        <p class="text-muted fw-medium mb-0">Sign in to continue Happy Parking</p>
+                                        <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">{{ getBusinessSetting('header_text') ?? 'My Website' }}</h4>
+                                        <p class="text-muted fw-medium mb-0">Sign in to continue {{ getBusinessSetting('header_text') ?? 'My Website' }}</p>
                                     </div>
                                 </div>
                                 <div class="card-body pt-0">
@@ -54,8 +63,8 @@
                                         </div><!--end form-group-->
 
                                         <div class="form-group">
-                                            <x-input-box label="Password" name="password" id="password"
-                                                type="password" placeholder="Enter password" required />
+                                            <x-input-box label="Password" name="password" id="password" type="password"
+                                                placeholder="Enter password" required />
 
                                         </div><!--end form-group-->
 
@@ -77,7 +86,8 @@
                                         <div class="form-group mb-0 row">
                                             <div class="col-12">
                                                 <div class="d-grid mt-3">
-                                                    <button class="btn btn-primary" type="submit">Log In <i class="fas fa-sign-in-alt ms-1"></i></button>
+                                                    <button class="btn btn-primary" type="submit">Log In <i
+                                                            class="fas fa-sign-in-alt ms-1"></i></button>
 
                                                 </div>
                                             </div><!--end col-->

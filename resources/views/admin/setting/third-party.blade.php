@@ -24,7 +24,7 @@
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" role="tablist">
                     <li class="nav-item">
-                        <a href="#mail-config" class="nav-link active" data-bs-toggle="tab" role="tab" aria-controls="about" aria-selected="true">
+                        <a href="{{ route('admin.thirdPartyApi', 'mail_config') }}" class="nav-link {{ $page == 'mail_config' ? 'active' : '' }}">
                             Mail Config
                         </a>
                     </li>
@@ -32,32 +32,35 @@
             </div>
 
             <div class="card-body tab-content">
+                @if ($page == 'mail_config')
                 <div class="tab-pane fade show active" id="mail-config" role="tabpanel">
-                    <form action="#" method="">
+                    <form action="{{ route('admin.thirdPartyApiPost')}}" method="POST">
+                        @csrf
                         <div class="row align-items-end">
+                            <input type="hidden" name="type" value="{{ $page }}">
                             <div class="col-md-6">
-                                <x-input-box name="mailer_name" id="mailer_name" label="Mailer Name" value="" placeholder="Enter mailer name" required />
+                                <x-input-box name="mailer_name" id="mailer_name" label="Mailer Name" value="{{ getBusinessSetting('mail_config')['mailer_name'] ?? '' }}" placeholder="Enter mailer name" required />
                             </div>
                             <div class="col-md-6">
-                                <x-input-box name="host" id="host" label="Host" value="" placeholder="Enter host" required />
+                                <x-input-box name="host" id="host" label="Host" value="{{ getBusinessSetting('mail_config')['host'] ?? '' }}" placeholder="Enter host" required />
                             </div>
                             <div class="col-md-6 mt-2">
-                                <x-input-box name="driver" id="driver" label="Driver" value="" placeholder="Enter driver" required />
+                                <x-input-box name="driver" id="driver" label="Driver" value=" {{ getBusinessSetting('mail_config')['driver'] ?? '' }}" placeholder="Enter driver" required />
                             </div>
                             <div class="col-md-6 mt-2">
-                                <x-input-box name="port" id="port" label="Port" value="" placeholder="Enter port number" required />
+                                <x-input-box name="port" id="port" label="Port" value="{{ getBusinessSetting('mail_config')['port'] ?? '' }}" placeholder="Enter port number" required />
                             </div>
                             <div class="col-md-6 mt-2">
-                                <x-input-box name="username" id="username" label="Username" value="" placeholder="Enter username" required />
+                                <x-input-box name="username" id="username" label="Username" value="{{ getBusinessSetting('mail_config')['username'] ?? '' }}" placeholder="Enter username" required />
                             </div>
                             <div class="col-md-6 mt-2">
-                                <x-input-box name="email" id="email" label="Email ID" value="" placeholder="Enter email ID" required />
+                                <x-input-box name="email" id="email" label="Email ID" value="{{ getBusinessSetting('mail_config')['email'] ?? '' }}" placeholder="Enter email ID" required />
                             </div>
                             <div class="col-md-6 mt-2">
-                                <x-input-box name="encryption" id="encryption" label="Encryption" value="" placeholder="Enter encryption type" required />
+                                <x-input-box name="encryption" id="encryption" label="Encryption" value="{{ getBusinessSetting('mail_config')['encryption'] ?? '' }}" placeholder="Enter encryption type" required />
                             </div>
                             <div class="col-md-6 mt-2">
-                                <x-input-box name="password" id="password" label="Password" value="" placeholder="Enter password" required />
+                                <x-input-box name="password" id="password" label="Password" value="{{ getBusinessSetting('mail_config')['password'] ?? '' }}" placeholder="Enter password" required />
                             </div>
 
                             <div class="col-md-1 mt-2">
@@ -67,6 +70,7 @@
                     </form>
 
                 </div>
+                @endif
             </div>
         </div>
     </div>
