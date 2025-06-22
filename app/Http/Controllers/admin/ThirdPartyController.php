@@ -1,65 +1,32 @@
 <?php
-
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ThirdPartyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function thirdPartyApi($config = null)
     {
-        return view('admin.setting.third-party');
+        $data = getBusinessSetting($config);
+        $page = $config;
+        return view('admin.setting.third-party', compact('data', 'page'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function thirdPartyApiPost(Request $request)
     {
-        //
-    }
+        $type = $request->type;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $value = json_encode($request->except('_token'));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $data = updateBusinessSetting($type, $value);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        if ($data === true) {
+            toast('Data updated successfully', 'success');
+        } else {
+            toast('Something went wrong!', 'error');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->back();
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\BusinessSetting;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessSettingController extends Controller
 {
@@ -26,9 +28,32 @@ class BusinessSettingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+
+        foreach ($data as $key => $value) {
+            if ($request->hasFile($key)) {
+                if ($request->file($key)->isValid()) {
+                    $filePath = $request->file($key)->store('uploads/admin-settings', 'public');
+                    $value = $filePath;
+                } else {
+                    continue;
+                }
+            } elseif ($value === null || $value === '') {
+                
+                $value = null;
+            }
+
+            BusinessSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => is_array($value) ? json_encode($value) : $value, 'created_by' => Auth::user()->id]
+            );
+        }
+
+         toast('Business Settings updated successfully', 'success');
+
+        return redirect()->back();
     }
 
     /**

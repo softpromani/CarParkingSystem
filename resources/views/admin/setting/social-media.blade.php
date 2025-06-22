@@ -20,21 +20,47 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
 
-                <form action="#" method="post">
+                <form
+                    action="{{ isset($editsocialmedia) ? route('admin.social-media.update', $editsocialmedia->id) : route('admin.social-media.store') }}"
+                    method="post">
+                    @csrf
+                    @isset($editsocialmedia)
+                        @method('PATCH')
+                    @endisset
                     <div class="card-body">
                         <div class="row align-items-end">
                             <div class="col-md-4">
-                                <x-select-box label="Name" id="user_id" name="user_id" :options="[
-                                    'Instagram' => 'Instagram',
-                                    'Facebook' => 'Facebook',
-                                    'Twitter' => 'Twitter',
-                                    'LinkedIn' => 'LinkedIn',
-                                    'Snapchat' => 'Snapchat',
-                                ]"
-                                    placeholder="--Select--" required />
+                                <div>
+                                    <label class="form-label" for="name">Name</label>
+                                    <select class="form-control" name="name">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option value="instagram"
+                                            {{ isset($editsocialmedia->name) ? ($editsocialmedia->name == 'instagram' ? 'selected' : '') : '' }}>
+                                            Instagram</option>
+                                        <option value="facebook"
+                                            {{ isset($editsocialmedia->name) ? ($editsocialmedia->name == 'facebook' ? 'selected' : '') : '' }}>
+                                            Facebook</option>
+                                        <option value="twitter"
+                                            {{ isset($editsocialmedia->name) ? ($editsocialmedia->name == 'twitter' ? 'selected' : '') : '' }}>
+                                            Twitter</option>
+                                        <option value="linkedin"
+                                            {{ isset($editsocialmedia->name) ? ($editsocialmedia->name == 'linkedin' ? 'selected' : '') : '' }}>
+                                            Linkedin</option>
+                                    </select>
+                                </div>
+                                @error('name')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+
                             </div>
                             <div class="col-md-6">
-                                <x-input-box name="name" id="name" label="Social Media Link" value="" required />
+                                <div>
+                                    <x-input-box name="link" id="link" label="Social Media Link"
+                                        value="{{ old('link', $editsocialmedia->link ?? '') }}" required />
+                                </div>
+                                @error('link')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <div class="col-md-1">
@@ -67,24 +93,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Example</td>
-                                    <td>Example</td>
-                                    <td>
-                                        <div class="dropstart">
-                                            <button class="btn btn-sm bg-white" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Repeat static rows as needed -->
+                                @foreach ($socialMedia as $media)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $media->name }}</td>
+                                        <td><a href="{{ $media->link }}" target="_blank">{{ $media->link }}</a></td>
+
+                                        <td>
+                                            <div class="dropstart">
+                                                <button class="btn btn-sm bg-white" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.social-media.edit', $media->id) }}">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item text-danger" href="#"
+                                                            onclick="event.preventDefault(); confirmDelete({{ $media->id }})">
+                                                            Delete
+                                                        </a>
+                                                        <form id="delete-form-{{ $media->id }}"
+                                                            action="{{ route('admin.social-media.destroy', $media->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -92,4 +134,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete(id) {
+            if (confirm('Are you sure you want to delete this social-media?')) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        }
+    </script>
 @endsection
