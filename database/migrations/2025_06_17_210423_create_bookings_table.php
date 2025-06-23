@@ -23,10 +23,10 @@ return new class extends Migration
             $table->timestamp('booking_to_time')->nullable();
             $table->timestamp('park_in')->nullable();
             $table->timestamp('park_out')->nullable();
-            $table->unsignedBigInteger('check_in_by')->nullable();
-            $table->unsignedBigInteger('check_out_by')->nullable();
-            $table->bigInteger('total_parked_time')->comment('in minute');
-            $table->decimal('total_charge', 10, 2);
+            $table->unsignedBigInteger('park_in_by')->nullable();
+            $table->unsignedBigInteger('park_out_by')->nullable();
+            $table->bigInteger('total_parked_time')->default(0)->comment('in minute');
+            $table->decimal('total_charge', 10, 2)->default(0.00);
             $table->json('price_breakup')->nullable();
             $table->timestamps();
         });

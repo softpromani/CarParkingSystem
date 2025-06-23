@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\GeneralController;
+use App\Http\Controllers\api\vehicleOwner\BookingController;
 use App\Http\Controllers\api\vehicleOwner\ParkingController;
 use App\Http\Controllers\api\vehicleOwner\ProfileController;
 use App\Http\Controllers\api\vehicleOwner\VehicleController;
@@ -24,8 +25,10 @@ Route::prefix('v1')->group(function () {
         Route::resource('vehicle', VehicleController::class)->except(['index', 'create']);
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
-            Route::get('slots/{parkingId}', 'slots')->name('slots');
+            Route::post('slots', 'slots')->name('slots');
+            Route::get('park-in/{bookingId}', [ParkingController::class, 'park_in'])->name('park-in');
         });
+        Route::resource('parking-booking', BookingController::class);
     });
 
     // general data fetch
