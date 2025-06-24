@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\api\vehicleOwner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ParkInOutRequest;
 use App\Models\Booking;
 use App\Models\Parking;
 use App\Services\ParkingService;
@@ -60,13 +61,22 @@ class ParkingController extends Controller
             'message' => 'No Slots Available',
         ]);
     }
-    public function park_in($bookingId, ParkingService $service)
+    public function park_in(ParkInOutRequest $parkInOutRequest, ParkingService $service)
     {
-        $result = $service->parkIn($bookingId, 'owner');
+        $result = $service->parkIn($parkInOutRequest->booking_id, $parkInOutRequest->parking_id, 'owner');
 
         return is_string($result)
         ? response()->json(['status' => false, 'message' => $result])
         : response()->json(['status' => true, 'message' => 'Park-in successful']);
 
+    }
+
+    public function park_out(ParkInOutRequest $parkInOutRequest, ParkingService $service)
+    {
+        $result = $service->parkOut($parkInOutRequest->booking_id, $parkInOutRequest->parking_id, 'owner');
+
+        return is_string($result)
+        ? response()->json(['status' => false, 'message' => $result])
+        : response()->json(['status' => true, 'message' => 'Park-out successful']);
     }
 }

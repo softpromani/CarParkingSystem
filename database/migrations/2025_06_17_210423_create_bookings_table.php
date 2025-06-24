@@ -28,6 +28,7 @@ return new class extends Migration
             $table->bigInteger('total_parked_time')->default(0)->comment('in minute');
             $table->decimal('total_charge', 10, 2)->default(0.00);
             $table->json('price_breakup')->nullable();
+            $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

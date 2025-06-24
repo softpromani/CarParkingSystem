@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Model
 {
@@ -32,5 +33,14 @@ class Booking extends Model
                     });
             })
             ->exists();
+    }
+
+    public function vehicle(): BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class, 'vehicle_id');
+    }
+    public function parking(): BelongsTo
+    {
+        return $this->belongsTo(Parking::class, 'parking_id');
     }
 }
