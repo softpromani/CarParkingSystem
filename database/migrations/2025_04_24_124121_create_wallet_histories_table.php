@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('wallet_histories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('type');
-            $table->decimal('amount',10,2);
+            $table->enum('type', ['credit', 'debit']);
+            $table->decimal('amount', 10, 2);
             $table->string('payment_method');
             $table->text('note')->nullable();
             $table->string('created_by')->nullable();

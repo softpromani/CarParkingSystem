@@ -77,6 +77,6 @@ class ParkingController extends Controller
 
         return is_string($result)
         ? response()->json(['status' => false, 'message' => $result])
-        : response()->json(['status' => true, 'message' => 'Park-out successful']);
+        : response()->json(['status' => true, 'message' => 'Park-out successful', 'data' => $result]);
     }
 }

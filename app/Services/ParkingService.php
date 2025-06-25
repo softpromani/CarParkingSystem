@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Booking;
+use App\Models\BookingInvoice;
 use App\Models\ParkingSlot;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,7 @@ class ParkingService
     /**
      * Mark a vehicle as parked-out.
      */
-    public function parkOut(int $bookingId, int $parkingId, string $userby): bool | string
+    public function parkOut(int $bookingId, int $parkingId, string $userby): string | array
     {
         return DB::transaction(function () use ($bookingId, $parkingId, $userby) {
             $booking = Booking::find($bookingId);
@@ -77,8 +78,15 @@ class ParkingService
             $booking->save();
             // Free the slot
             ParkingSlot::where('id', $booking->slot_id)->update(['status' => 'available']);
+            $invoice = BookingInvoice::create(
+                [
+                    'booking_id'    => $booking->id,
+                    'amount'        => $booking->total_charge,
+                    'amount_to_pay' => $booking->total_charge,
 
-            return true;
+                ]
+            );
+            return ['parking_time' => $durationInMinutes, 'amount' => $fare['total_fare'], 'fare_breakup' => $fare, 'invoice_id' => $invoice->id];
         });
     }
 

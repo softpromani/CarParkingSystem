@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function () {
             Route::post('slots', 'slots')->name('slots');
             Route::post('park-in', [ParkingController::class, 'park_in'])->name('park-in');
             Route::post('park-out', [ParkingController::class, 'park_out'])->name('park-out');
+            Route::post('pay', [BookingController::class, 'pay'])->name('pay');
         });
         Route::resource('parking-booking', BookingController::class);
     });

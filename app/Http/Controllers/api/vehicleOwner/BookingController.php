@@ -3,9 +3,13 @@ namespace App\Http\Controllers\api\vehicleOwner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
+use App\Http\Requests\PayInvoiceRequest;
 use App\Models\Booking;
+use App\Models\BookingInvoice;
 use App\Models\ParkingSlot;
 use App\Models\Vehicle;
+use App\Models\WalletHistory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
@@ -56,4 +60,67 @@ class BookingController extends Controller
             'message' => 'Invalid Slot Selection',
         ]);
     }
+    public function index(Request $request)
+    {
+        $query = Booking::with(['parking', 'vehicle', 'invoice'])
+            ->where('vehicle_owner_id', auth()->id());
+
+        // Optional filters
+        if ($request->filled('parking_id')) {
+            $query->where('parking_id', $request->parking_id);
+        }
+
+        if ($request->filled('vehicle_id')) {
+            $query->where('vehicle_id', $request->vehicle_id);
+        }
+
+        $data = $query->paginate(10)->withQueryString();
+
+        return response()->json([
+            'status'  => true,
+            'data'    => $data,
+            'message' => 'Your Booking List',
+        ]);
+    }
+
+    public function pay(PayInvoiceRequest $req)
+    {
+        $data = $req->validated();
+        $inv  = BookingInvoice::find($req->invoice_id);
+        switch ($req->payment_mode) {
+            case 'online':
+                $inv->payment_mode   = 'online';
+                $inv->paid_amount    = $req->amount;
+                $inv->transaction_no = $req->transaction_no;
+                $inv->status         = 'paid';
+                return $inv->update();
+            case 'wallet':
+                return $this->walletPay($inv, $data);
+            default:
+                abort(404);
+        }
+    }
+    private function walletPay(BookingInvoice $inv, array $data)
+    {
+        if (auth()->user()->wallet_amount >= $inv['amount_to_pay']) {
+            DB::transaction(function () use ($inv, $data) {
+                WalletHistory::create([
+                    'user_id'        => auth()->id(),
+                    'type'           => 'debit',
+                    'amount'         => $inv['amount_to_pay'],
+                    'payment_method' => 'wallet',
+                    'note'           => 'charge for parking',
+                ]);
+                $inv->payment_mode   = 'wallet';
+                $inv->paid_amount    = $inv->amount_to_pay;
+                $inv->transaction_no = $inv->booking_id;
+                $inv->status         = 'paid';
+                $inv->update();
+            });
+            return response()->json(['status' => true, 'message' => 'Invoice Paid successfully']);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Insufficient balance in your wallet']);
+        }
+    }
+
 }
