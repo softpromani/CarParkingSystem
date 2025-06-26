@@ -26,6 +26,7 @@ Route::prefix('v1')->as('v1.')->group(function () {
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
             Route::post('slots', 'slots')->name('slots');
+            Route::get('show/{parkingId}','parking_show')->name('show');
             Route::post('pay', [BookingController::class, 'pay'])->name('pay');
         });
         Route::resource('parking-booking', BookingController::class);

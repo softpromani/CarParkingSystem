@@ -79,4 +79,11 @@ class ParkingController extends Controller
         ? response()->json(['status' => false, 'message' => $result])
         : response()->json(['status' => true, 'message' => 'Park-out successful', 'data' => $result]);
     }
+    public function parking_show($parkingId){
+        return response()->json([
+            'status'=>true,
+            'data'=>Parking::with(['facilities'])->withCount(['slots'])->find($parkingId),
+            'message'=>'Parking Detail Fetch'
+        ]);
+    }
 }
