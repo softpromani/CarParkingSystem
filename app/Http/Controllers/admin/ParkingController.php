@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Parking;
 use App\Models\ParkingFacility;
-use App\Models\ParkingSection;
 use App\Models\ParkingSlot;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,10 +42,9 @@ class ParkingController extends Controller
      */
     public function create()
     {
-        $users          = User::all();
-        $parkings       = ParkingFacility::all();
-        $parkingSection = ParkingSection::all();
-        return view('admin.parking.create', compact('users', 'parkings', 'parkingSection'));
+        $users    = User::all();
+        $parkings = ParkingFacility::all();
+        return view('admin.parking.create', compact('users', 'parkings'));
     }
     /**
      * Store a newly created resource in storage.
