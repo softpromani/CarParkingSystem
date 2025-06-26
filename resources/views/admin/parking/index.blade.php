@@ -48,11 +48,30 @@
             </div> <!-- /.card -->
         </div> <!-- /.col -->
     </div> <!-- /.row -->
+
+    <!-- QR Code Modal -->
+<div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center align-items-center">
+        <div id="qrContainer" class="m-auto" style="height: 200px;width:200px"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-success" id="printQrBtn">Print</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('script')
 
-    <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             var table = $('#myTable').DataTable({
@@ -96,5 +115,51 @@
 }
 
         </script>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let qrCode;
+
+        $(document).on('click', '.qr-btn', function () {
+            const url = $(this).data('url');
+
+            // Clear previous QR code
+            $('#qrContainer').empty();
+            $('#qrUrlText').text('');
+
+            // Generate QR
+            qrCode = new QRCode(document.getElementById("qrContainer"), {
+                text: url,
+                width: 200,
+                height: 200
+            });
+
+            $('#qrUrlText').text(url);
+
+            // Show modal
+            $('#qrModal').modal('show');
+        });
+
+        $('#printQrBtn').on('click', function () {
+            const printContents = document.getElementById('qrContainer').innerHTML;
+            const newWin = window.open('', '', 'width=300,height=400');
+
+            newWin.document.write(`
+                <html>
+                    <head><title>Print QR Code</title></head>
+                    <body style="text-align:center; padding-top: 50px;">
+                        ${printContents}
+                    </body>
+                </html>
+            `);
+            newWin.document.close();
+            newWin.focus();
+                newWin.print();
+        });
+    });
+</script>
+
+
 
 @endsection

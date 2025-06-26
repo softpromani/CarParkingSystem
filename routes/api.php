@@ -8,7 +8,7 @@ use App\Http\Controllers\api\vehicleOwner\ProfileController;
 use App\Http\Controllers\api\vehicleOwner\VehicleController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->as('v1.')->group(function () {
     require __DIR__ . '/securityguard.php';
 
     Route::prefix('auth')->as('auth.')->controller(AuthCOntroller::class)->group(function () {
@@ -26,8 +26,6 @@ Route::prefix('v1')->group(function () {
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
             Route::post('slots', 'slots')->name('slots');
-            Route::post('park-in', [ParkingController::class, 'park_in'])->name('park-in');
-            Route::post('park-out', [ParkingController::class, 'park_out'])->name('park-out');
             Route::post('pay', [BookingController::class, 'pay'])->name('pay');
         });
         Route::resource('parking-booking', BookingController::class);
@@ -37,5 +35,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('general')->as('general.')->controller(GeneralController::class)->group(function () {
         Route::get('brand/{search?}', 'getBrand');
         Route::get('brand-model/{search?}', 'getBrandModel');
+    });
+    Route::middleware('auth:sanctum')->prefix('vehicle')->as('vehicle.')->group(function () {
+            Route::post('park-in', [ParkingController::class, 'park_in'])->name('park-in');
+            Route::post('park-out', [ParkingController::class, 'park_out'])->name('park-out');
     });
 });

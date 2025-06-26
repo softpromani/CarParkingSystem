@@ -29,7 +29,8 @@ class ParkingController extends Controller
                     return '
                         <a href="' . route('admin.parking.edit', $row->id) . '" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i></a>
                         <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>
-                        <a href="' . route('admin.parking.slot', $row->id) . '" class="btn"><i class="fa-solid fa-square-parking fa-2x"></i></a>';
+                        <a href="' . route('admin.parking.slot', $row->id) . '" class="btn btn-sm"><i class="fa-solid fa-square-parking fa-3x"></i></a>
+                        <button type="button" class="btn btn-sm btn-primary qr-btn" data-url="' . route('v1.vehicle.park-in',['parking_id'=>$row->id]) .'"><i class="fa-solid fa-qrcode"></i></button>';
                 })
                 ->rawColumns(['action', 'image'])
                 ->make(true);
