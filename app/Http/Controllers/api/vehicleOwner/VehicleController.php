@@ -14,7 +14,8 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        //
+        $data = Vehicle::where('owner_id', auth()->id())->paginate(10);
+        return response()->json(['status' => true, 'data' => $data, 'message' => 'your vehicles list']);
     }
 
     /**

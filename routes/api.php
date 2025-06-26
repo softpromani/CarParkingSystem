@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum', 'role:vehicle_owner'])->prefix('vehicle-owner')->as('vehicle-owner.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'getProfile']);
         Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
-        Route::resource('vehicle', VehicleController::class)->except(['index', 'create']);
+        Route::resource('vehicle', VehicleController::class)->except(['create']);
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
             Route::post('slots', 'slots')->name('slots');
