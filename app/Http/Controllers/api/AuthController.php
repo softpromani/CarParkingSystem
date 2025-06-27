@@ -32,10 +32,10 @@ class AuthController extends Controller
             return response()->json($res);
         }
 
-        if (! $user) {
+        if (! $user || ! $user->hasRole('guard')) {
             return response()->json([
                 'status'  => false,
-                'message' => 'User not found !',
+                'message' => 'User not found OR Invalid User!',
             ]);
         }
 
