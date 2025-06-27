@@ -61,29 +61,30 @@ class ParkingController extends Controller
             'message' => 'No Slots Available',
         ]);
     }
-    public function park_in(ParkInOutRequest $parkInOutRequest, ParkingService $service)
+
+    public function park_in_out(ParkInOutRequest $parkInOutRequest, ParkingService $service)
     {
-        $result = $service->parkIn($parkInOutRequest->booking_id, $parkInOutRequest->parking_id, 'owner');
+        if (Booking::find($parkInOutRequest->booking_id)->park_in) {
+            $result = $service->parkOut($parkInOutRequest->booking_id, $parkInOutRequest->parking_id, $parkInOutRequest->user_by);
+
+            return is_string($result)
+            ? response()->json(['status' => false, 'message' => $result])
+            : response()->json(['status' => true, 'message' => 'Park-out successful', 'data' => $result]);
+        }
+
+        $result = $service->parkIn($parkInOutRequest->booking_id, $parkInOutRequest->parking_id, $parkInOutRequest->user_by);
 
         return is_string($result)
         ? response()->json(['status' => false, 'message' => $result])
         : response()->json(['status' => true, 'message' => 'Park-in successful']);
 
     }
-
-    public function park_out(ParkInOutRequest $parkInOutRequest, ParkingService $service)
+    public function parking_show($parkingId)
     {
-        $result = $service->parkOut($parkInOutRequest->booking_id, $parkInOutRequest->parking_id, 'owner');
-
-        return is_string($result)
-        ? response()->json(['status' => false, 'message' => $result])
-        : response()->json(['status' => true, 'message' => 'Park-out successful', 'data' => $result]);
-    }
-    public function parking_show($parkingId){
         return response()->json([
-            'status'=>true,
-            'data'=>Parking::with(['facilities'])->withCount(['slots'])->find($parkingId),
-            'message'=>'Parking Detail Fetch'
+            'status'  => true,
+            'data'    => Parking::with(['facilities'])->withCount(['slots'])->find($parkingId),
+            'message' => 'Parking Detail Fetch',
         ]);
     }
 }

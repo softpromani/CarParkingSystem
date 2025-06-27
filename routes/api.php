@@ -26,19 +26,18 @@ Route::prefix('v1')->as('v1.')->group(function () {
         Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
             Route::get('list', 'list')->name('list');
             Route::post('slots', 'slots')->name('slots');
-            Route::get('show/{parkingId}','parking_show')->name('show');
+            Route::get('show/{parkingId}', 'parking_show')->name('show');
             Route::post('pay', [BookingController::class, 'pay'])->name('pay');
         });
         Route::resource('parking-booking', BookingController::class);
+        Route::middleware('auth:sanctum')->prefix('vehicle')->as('vehicle.')->group(function () {
+            Route::post('park-in-out', [ParkingController::class, 'park_in_out'])->name('park-in-out');
+        });
     });
 
     // general data fetch
     Route::middleware('auth:sanctum')->prefix('general')->as('general.')->controller(GeneralController::class)->group(function () {
         Route::get('brand/{search?}', 'getBrand');
         Route::get('brand-model/{search?}', 'getBrandModel');
-    });
-    Route::middleware('auth:sanctum')->prefix('vehicle')->as('vehicle.')->group(function () {
-            Route::post('park-in', [ParkingController::class, 'park_in'])->name('park-in');
-            Route::post('park-out', [ParkingController::class, 'park_out'])->name('park-out');
     });
 });

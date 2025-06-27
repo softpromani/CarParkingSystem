@@ -23,6 +23,7 @@ class ParkInOutRequest extends FormRequest
         return [
             'parking_id' => 'required|integer|exists:parkings,id',
             'booking_id' => 'required|integer|exists:bookings,id',
+            'user_by'    => 'required|in:owner,guard,admin',
         ];
     }
 }
