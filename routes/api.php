@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\GeneralController;
+use App\Http\Controllers\api\ParkingController;
 use App\Http\Controllers\api\vehicleOwner\BookingController;
-use App\Http\Controllers\api\vehicleOwner\ParkingController;
 use App\Http\Controllers\api\vehicleOwner\ProfileController;
 use App\Http\Controllers\api\vehicleOwner\VehicleController;
 use Illuminate\Support\Facades\Route;
@@ -23,21 +23,21 @@ Route::prefix('v1')->as('v1.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'getProfile']);
         Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
         Route::resource('vehicle', VehicleController::class)->except(['create']);
-        Route::prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
-            Route::get('list', 'list')->name('list');
-            Route::post('slots', 'slots')->name('slots');
-            Route::get('show/{parkingId}', 'parking_show')->name('show');
+        Route::prefix('parking')->as('parking.')->group(function () {
             Route::post('pay', [BookingController::class, 'pay'])->name('pay');
         });
         Route::resource('parking-booking', BookingController::class);
-        Route::middleware('auth:sanctum')->prefix('vehicle')->as('vehicle.')->group(function () {
-            Route::post('park-in-out', [ParkingController::class, 'park_in_out'])->name('park-in-out');
-        });
     });
 
     // general data fetch
     Route::middleware('auth:sanctum')->prefix('general')->as('general.')->controller(GeneralController::class)->group(function () {
         Route::get('brand/{search?}', 'getBrand');
         Route::get('brand-model/{search?}', 'getBrandModel');
+    });
+    Route::middleware('auth:sanctum')->prefix('parking')->as('parking.')->controller(ParkingController::class)->group(function () {
+        Route::post('in-out', 'park_in_out')->name('park-in-out');
+        Route::get('list', 'list')->name('list');
+        Route::post('slots', 'slots')->name('slots');
+        Route::get('show/{parkingId}', 'parking_show')->name('show');
     });
 });

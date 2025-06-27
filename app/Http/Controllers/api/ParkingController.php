@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\api\vehicleOwner;
+namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParkInOutRequest;
