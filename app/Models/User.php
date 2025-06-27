@@ -48,15 +48,23 @@ class User extends Authenticatable
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function parking_guard()
-    {
-
-        return $this->hasOne(GuardParkingMap::class, 'guard_id');
-
-    }
-
     public function getFullImageAttribute()
     {
         return asset('storage/' . $this->image);
+    }
+    public function parking()
+    {
+        return $this->hasOneThrough(
+            Parking::class,
+            GuardParkingMap::class,
+            'guard_id',  // Foreign key on GuardParkingMap table
+            'id',        // Foreign key on Parking table
+            'id',        // Local key on User table
+            'parking_id' // Local key on GuardParkingMap table
+        );
+    }
+    public function guardParkingId()
+    {
+        return optional($this->parking)->id; // returns single parking_id or null
     }
 }

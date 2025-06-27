@@ -57,7 +57,7 @@
                 <td>{{ $user->last_name ?? '' }}</td>
                 <td>{{ $user->mobile_number ?? '' }}</td>
                 <td>
-                    {{ $user->parking_guard->parking->name ?? 'N/A' }}
+                    {{ $user->parking->name ?? 'N/A' }}
                 </td>
                 <td>
                     <div class="dropstart">
