@@ -73,7 +73,7 @@ class ProfileController extends Controller
     public function wallet_history()
     {
         $data['wallet_amount']  = auth()->user()->wallet;
-        $data['wallet_history'] = WalletHistory::where('user_id', auth()->id());
+        $data['wallet_history'] = WalletHistory::where('user_id', auth()->id())->paginate(20);
         return response()->json(['status' => true, 'data' => $data, 'message' => 'wallet history']);
     }
 }
