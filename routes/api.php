@@ -21,6 +21,7 @@ Route::prefix('v1')->as('v1.')->group(function () {
 
     Route::middleware(['auth:sanctum', 'role:vehicle_owner'])->prefix('vehicle-owner')->as('vehicle-owner.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'getProfile']);
+        Route::get('/wallet-history', [ProfileController::class, 'wallet_history']);
         Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
         Route::resource('vehicle', VehicleController::class)->except(['create']);
         Route::prefix('parking')->as('parking.')->group(function () {

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\api\vehicleOwner;
 
 use App\Http\Controllers\Controller;
+use App\Models\WalletHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Validator;
@@ -67,5 +68,12 @@ class ProfileController extends Controller
                 'role'       => $user->getRoleNames()->first(),
             ],
         ]);
+    }
+
+    public function wallet_history()
+    {
+        $data['wallet_amount']  = auth()->user()->wallet;
+        $data['wallet_history'] = WalletHistory::where('user_id', auth()->id());
+        return response()->json(['status' => true, 'data' => $data, 'message' => 'wallet history']);
     }
 }
