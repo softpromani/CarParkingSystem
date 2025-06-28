@@ -14,6 +14,6 @@ class ParkingFacility extends Model
     }
     public function getFullImageAttribute()
     {
-        return asset('storage' . $this->image);
+        return asset('storage/' . $this->image);
     }
 }
