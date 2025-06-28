@@ -12,7 +12,7 @@ class ParkingFacility extends Model
     {
         return $this->belongsToMany(Parking::class, 'parking_facility_maps', 'parking_facility_id', 'parking_id');
     }
-    public function getFullIageAttribute()
+    public function getFullImageAttribute()
     {
         return asset('storage' . $this->image);
     }
