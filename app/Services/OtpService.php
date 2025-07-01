@@ -17,10 +17,11 @@ class OtpService
             'otp'       => rand(0000, 9999),
             'expiry_at' => Carbon::now()->addMinutes(10),
         ]);
-        $this->whatapp->sendOTP($data->email_phone, $data->otp);
+        // $this->whatapp->sendOTP($data->email_phone, $data->otp);
         return [
             'status'     => true,
             'message'    => 'OTP sent to  user',
+            'otp'        => $data->otp,
             'expires_at' => $data->expiry_at->toDateTimeString(),
         ];
     }

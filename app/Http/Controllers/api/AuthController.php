@@ -107,7 +107,7 @@ class AuthController extends Controller
             'first_name' => 'required|string|max:50',
             'last_name'  => 'required|string|max:50',
             'email'      => 'required|email|unique:users,email',
-            'phone'      => 'required|digits:10|unique:users,mobile_number',
+            'phone'      => 'required|unique:users,mobile_number',
             'image'      => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
