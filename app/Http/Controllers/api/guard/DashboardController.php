@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\guard;
+namespace App\Http\Controllers\api\guard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
