@@ -27,7 +27,7 @@ use App\Http\Controllers\admin\BusinessSettingController;
 use App\Http\Controllers\admin\ParkingFacilityController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
