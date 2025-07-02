@@ -50,7 +50,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $customer->first_name . ' ' . $customer->last_name }}</td>
-                                        <td>{{ $customer->phone }}</td>
+                                        <td>{{ $customer->mobile_number }}</td>
                                         <td>{{ $customer->email }}</td>
                                         <td>{{ $customer->pin_code }}</td>
                                         <td>
