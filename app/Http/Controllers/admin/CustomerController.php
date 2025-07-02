@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -13,7 +13,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = User::role('vehicle_owner')->get();
         return view('admin.customer.index', compact('customers'));
     }
 
@@ -31,23 +31,23 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name'      => 'required',
+            'last_name'       => 'required',
             'billing_address' => 'nullable',
             'sitting_address' => 'nullable',
-            'phone' => 'nullable',
-            'email' => 'nullable',
-            'pin_code' => 'nullable'
+            'phone'           => 'nullable',
+            'email'           => 'nullable',
+            'pin_code'        => 'nullable',
         ]);
 
         $request = Customer::create([
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
+            'first_name'      => $request['first_name'],
+            'last_name'       => $request['last_name'],
             'billing_address' => $request['billing_address'],
             'sitting_address' => $request['sitting_address'],
-            'phone' => $request['phone'],
-            'email' => $request['email'],
-            'pin_code' => $request['pin_code'],
+            'phone'           => $request['phone'],
+            'email'           => $request['email'],
+            'pin_code'        => $request['pin_code'],
 
         ]);
 
@@ -69,7 +69,7 @@ class CustomerController extends Controller
     public function edit(string $id)
     {
         $editcustomer = Customer::findOrFail($id);
-        $customers = Customer::all();
+        $customers    = Customer::all();
 
         return view('admin.customer.create', compact('editcustomer', 'customers'));
     }
@@ -81,13 +81,13 @@ class CustomerController extends Controller
     {
         // Validate incoming request data
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name'      => 'required',
+            'last_name'       => 'required',
             'billing_address' => 'nullable',
             'sitting_address' => 'nullable',
-            'phone' => 'nullable',
-            'email' => 'nullable',
-            'pin_code' => 'nullable'
+            'phone'           => 'nullable',
+            'email'           => 'nullable',
+            'pin_code'        => 'nullable',
         ]);
 
         // Find the customer by ID
@@ -95,20 +95,19 @@ class CustomerController extends Controller
 
         // Update customer fields
         $customer->update([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
+            'first_name'      => $request->input('first_name'),
+            'last_name'       => $request->input('last_name'),
             'billing_address' => $request->input('billing_address'), // Use old value if not provided
             'sitting_address' => $request->input('sitting_address'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'pin_code' => $request->input('pin_code')
+            'email'           => $request->input('email'),
+            'phone'           => $request->input('phone'),
+            'pin_code'        => $request->input('pin_code'),
         ]);
 
         // Redirect back with a success message or any other response
-        toast('Customer Updated Successfully!','Success');
+        toast('Customer Updated Successfully!', 'Success');
         return redirect()->route('admin.customer.index');
     }
-
 
     /**
      * Remove the specified resource from storage.
