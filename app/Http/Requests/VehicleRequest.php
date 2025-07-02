@@ -28,7 +28,7 @@ class VehicleRequest extends FormRequest
         $rules = [
             'registration_number' => [
                 'required',
-                'regex:/^(BP|BG|BT|CD|DPR|G|RBP)-[1-9]-[A-Z]\d{1,4}$/',
+                'regex:/^(BP|BG|BT|CD|DPR|G|RBP)-[1-9]-([A-Z])?\d{1,4}$/',
                 Rule::unique('vehicles', 'registration_number')->ignore($vehicleId),
             ],
             'driver_id'           => 'sometimes|exists:users,id',
