@@ -5,16 +5,45 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = User::role('vehicle_owner')->get();
-        return view('admin.customer.index', compact('customers'));
+        if ($request->ajax()) {
+            return DataTables::of(User::role('vehicle_owner')->withcount(['vehicles', 'bookings']))
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    return '<a href="#">Edit</a>';
+                })
+                ->addColumn('vehicles_count', function ($row) {
+                    return '<a href="#">' . $row->vehicles_count . '</a>';
+                })
+                ->addColumn('bookings_count', function ($row) {
+                    return '<a href="#">' . $row->bookings_count . '</a>';
+                })
+                ->addColumn('name', function ($user) {
+                    return $user->name; // will call accessor or appended value
+                })
+                ->rawColumns(['action', 'vehicles_count', 'bookings_count'])
+                ->make(true);
+        }
+        $columns = [
+            ['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'label' => '#', 'orderable' => false, 'searchable' => false],
+            ['data' => 'name', 'name' => 'name', 'label' => 'Name'],
+            ['data' => 'email', 'name' => 'email', 'label' => 'Email'],
+            ['data' => 'mobile_number', 'name' => 'mobile_number', 'label' => 'Phone'],
+            ['data' => 'wallet_amount', 'name' => 'wallet_amount', 'label' => 'Wallet'],
+            ['data' => 'vehicles_count', 'name' => 'vehicles_count', 'label' => 'Vehicle'],
+            ['data' => 'bookings_count', 'name' => 'bookings_count', 'label' => 'Bookings'],
+            ['data' => 'action', 'name' => 'action', 'label' => 'Action', 'orderable' => false, 'searchable' => false],
+        ];
+
+        return view('admin.customer.index', compact('columns'));
     }
 
     /**

@@ -1,16 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Parking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables;
-
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -20,18 +16,28 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user = User::select(['id', 'first_name', 'last_name', 'email', 'mobile_number']);
-            return DataTables::of($user)
+            return DataTables::of(User::role('employee'))
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return '
                         <a href="' . route('admin.user.edit', $row->id) . '" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i></a>
                         <button onclick="deleteUser(' . $row->id . ')" class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></button>';
+
+                })
+                ->addColumn('name', function ($user) {
+                    return $user->name; // will call accessor or appended value
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.user.index');
+        $columns = [
+            ['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'label' => '#', 'orderable' => false, 'searchable' => false],
+            ['data' => 'name', 'name' => 'name', 'label' => 'Name'],
+            ['data' => 'email', 'name' => 'email', 'label' => 'Email'],
+            ['data' => 'mobile_number', 'name' => 'mobile_number', 'label' => 'Phone'],
+            ['data' => 'action', 'name' => 'action', 'label' => 'Action', 'orderable' => false, 'searchable' => false],
+        ];
+        return view('admin.user.index', compact('columns'));
     }
 
     /**
@@ -49,20 +55,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'first_name'       => 'required|string|max:255',
-            'last_name'        => 'required|string|max:255',
-            'email'       => 'required|email|unique:users,email',
-            'mobile_number'    => 'required|string|max:20',
-            'role_id'    => 'required',
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'email'         => 'required|email|unique:users,email',
+            'mobile_number' => 'required|string|max:20',
+            'role_id'       => 'required',
         ]);
 
-
         $validated = User::create([
-            'first_name'     => $validated['first_name'],
-            'last_name'      => $validated['last_name'],
-            'email'          => $validated['email'],
-            'password'       => Hash::make('12345678'),
-            'mobile_number'  => $validated['mobile_number'],
+            'first_name'    => $validated['first_name'],
+            'last_name'     => $validated['last_name'],
+            'email'         => $validated['email'],
+            'password'      => Hash::make('12345678'),
+            'mobile_number' => $validated['mobile_number'],
         ]);
 
         $role = Role::find($request->role_id);
@@ -95,23 +100,22 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'first_name'     => 'required|string|max:255',
-            'last_name'      => 'required|string|max:255',
-            'email'          => 'required|email|unique:users,email,' . $id,
-            'mobile_number'  => 'required|string|max:20',
-            'role_id'    => 'required',
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'email'         => 'required|email|unique:users,email,' . $id,
+            'mobile_number' => 'required|string|max:20',
+            'role_id'       => 'required',
         ]);
 
         $user = User::findOrFail($id);
         $user->update($validated);
 
-        if($request->role_id){
+        if ($request->role_id) {
             $user = User::find($id);
             $role = Role::find($request->role_id);
             // Remove all existing roles and assign the new one
             $user->syncRoles([$role->name]);
         }
-
 
         toast('User updated successfully!', 'success');
         return redirect()->route('admin.user.index');
@@ -124,9 +128,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-         return response()->json([
-            'status' => true,
-            'message' => "User deleted Successfully!"
+        return response()->json([
+            'status'  => true,
+            'message' => "User deleted Successfully!",
         ]);
     }
 

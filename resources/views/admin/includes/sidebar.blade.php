@@ -24,7 +24,7 @@
     </style>
     <!--start brand-->
     <div class="brand">
-        
+
       <div class="d-flex align-items-center">
             {{-- Logo --}}
             <a href="#" class="logo d-flex align-items-center">
@@ -86,25 +86,43 @@
 
 
                     <li class="menu-label mt-2">
-                        <span>Account Management</span>
+                        <span>User Management</span>
                     </li>
-                    @canany(['employee', 'employee_create', 'employee_read', 'employee_edit', 'employee_delete'])
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.user.index') }}">
-                                <i class="iconoir-user menu-icon"></i> <!-- User icon -->
-                                <span>Employee</span>
-                            </a>
-                        </li>
-                    @endcanany
+                     <li class="nav-item">
+                        <a class="nav-link" href="#sidebarVehicle" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarAnalytics">
+                            <i class="iconoir-user menu-icon"></i>
+                            <span>Users</span>
+                        </a>
+                        <div class="collapse " id="sidebarVehicle">
+                            <ul class="nav flex-column">
+                                @canany(['employee', 'employee_create', 'employee_read', 'employee_edit', 'employee_delete'])
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.user.index') }}">
+                                           Employee
+                                        </a>
+                                    </li>
+                                @endcanany
+                                @canany(['guard', 'guard_create', 'guard_read', 'guard_edit', 'guard_delete'])
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.guard.index') }}">
+                                            <span>Guard</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+                                @canany(['customer', 'customer_create', 'customer_read', 'customer_edit', 'customer_delete'])
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.customer.index') }}">
+                                            <span>Customer</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+                            </ul><!--end nav-->
+                        </div>
+                    </li>
 
-                    @canany(['guard', 'guard_create', 'guard_read', 'guard_edit', 'guard_delete'])
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.guard.index') }}">
-                                <i class="iconoir-chat-bubble menu-icon"></i>
-                                <span>Guard</span>
-                            </a>
-                        </li>
-                    @endcanany
+
+
                     @canany(['user_enquiry', 'user_enquiry_create', 'user_enquiry_read', 'user_enquiry_edit',
                         'user_enquiry_delete'])
                         <li class="nav-item">
@@ -114,14 +132,7 @@
                             </a>
                         </li>
                     @endcanany
-                    @canany(['customer', 'customer_create', 'customer_read', 'customer_edit', 'customer_delete'])
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.customer.index') }}">
-                                <i class="iconoir-user-circle menu-icon"></i> <!-- User circle icon -->
-                                <span>Customer</span>
-                            </a>
-                        </li>
-                    @endcanany
+
                     <li class="menu-label mt-2">
                         <span>App Management</span>
                     </li>

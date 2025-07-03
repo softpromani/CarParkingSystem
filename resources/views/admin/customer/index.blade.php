@@ -34,56 +34,7 @@
                 </div>
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table id="users-table" class="table table-bordered table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">S. No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Phone no.</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Pin Code</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($customers as $customer)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $customer->first_name . ' ' . $customer->last_name }}</td>
-                                        <td>{{ $customer->mobile_number }}</td>
-                                        <td>{{ $customer->email }}</td>
-                                        <td>{{ $customer->pin_code }}</td>
-                                        <td>
-                                            <div class="dropstart">
-                                                <button class="btn bg-white btn-sm" type="button" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.customer.edit', $customer->id) }}">Edit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item text-danger" href="#"
-                                                            onclick="event.preventDefault(); confirmDelete({{ $customer->id }})">
-                                                            Delete
-                                                        </a>
-
-                                                        <form id="delete-form-{{ $customer->id }}"
-                                                            action="{{ route('admin.customer.destroy', $customer->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <x-data-table id="customers-table" ajax-url="{{ route('admin.customer.index') }}" :columns="$columns" />
                     </div>
                 </div>
             </div>

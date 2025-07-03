@@ -45,6 +45,7 @@
 
     @include('sweetalert::alert')
     @yield('script')
+    @stack('scripts')
 </body>
 <!--end body-->
 
