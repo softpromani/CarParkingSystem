@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -148,5 +149,30 @@ class CustomerController extends Controller
 
         toast('Customer Deleted Successfully!', 'success');
         return redirect()->route('admin.customer.index');
+    }
+    public function vehicles(Request $request, $customerId)
+    {
+        if ($request->ajax()) {
+            $vehicles = Vehicle::query();
+            if ($customerId) {
+                $vehicles = $vehicles->where('owner_id', $customerId);
+            }
+            return datatables::of($vehicles)->addIndexColumn()
+                ->addColumn('model', function ($row) {
+                    return $row->brand->name . '<br/>' . $row->brand_model->name;
+                })
+                ->addColumn('action', function ($row) {
+                    return 'edit';
+                });
+        }
+        $columns = [
+            ['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'label' => '#', 'orderable' => false, 'searchable' => false],
+            ['data' => 'registration_number', 'name' => 'registration_number', 'label' => 'Registration No'],
+            ['data' => 'model', 'name' => 'model', 'label' => 'Model'],
+            ['data' => 'tyre', 'name' => 'tyre', 'label' => 'Tyre'],
+            ['data' => 'type', 'name' => 'type', 'label' => 'Type'],
+            ['data' => 'action', 'name' => 'action', 'label' => 'Action', 'orderable' => false, 'searchable' => false],
+        ];
+        return view('admin.vehicle.index', compact('columns'));
     }
 }

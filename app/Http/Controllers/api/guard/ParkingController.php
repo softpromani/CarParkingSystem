@@ -49,4 +49,17 @@ class ParkingController extends Controller
             'message' => 'No Slots Available',
         ]);
     }
+
+    // parking Bookings
+    public function parking_bookings(Request $request)
+    {
+        $booking = Booking::query();
+        $booking->where('parking_id', auth()->user()->guardParkingId());
+        $data = $booking->latest()->paginate(20);
+        return response()->json([
+            'status'  => true,
+            'data'    => $data,
+            'message' => 'Booking List',
+        ]);
+    }
 }

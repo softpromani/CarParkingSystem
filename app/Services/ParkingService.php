@@ -23,7 +23,9 @@ class ParkingService
                 case 'owner':if ($booking->vehicle_owner_id != auth()->id()) {
                         return 'you are not eligible to park this vehicle';
                     }break;
-
+                case 'guard':if ($booking->parking_id != auth()->user()->guardParkingId()) {
+                        return 'you are not eligible to park this vehicle';
+                    }
             }
             if ($booking->parking_id != $parkingId) {
                 return 'Booking not valid for this Parking';
@@ -50,6 +52,14 @@ class ParkingService
     {
         return DB::transaction(function () use ($bookingId, $parkingId, $userby) {
             $booking = Booking::find($bookingId);
+             switch ($userby) {
+                case 'owner':if ($booking->vehicle_owner_id != auth()->id()) {
+                        return 'you are not eligible to park this vehicle';
+                    }break;
+                case 'guard':if ($booking->parking_id != auth()->user()->guardParkingId()) {
+                        return 'you are not eligible to park this vehicle';
+                    }
+            }
 
             if (! $booking) {
                 return 'Booking not found.';
