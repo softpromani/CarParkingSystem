@@ -3,10 +3,10 @@ namespace App\Http\Controllers\api\guard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\BookingInvoice;
 use App\Models\Parking;
 use App\Models\Vehicle;
-use Request;
-
+use Illuminate\Http\Request;
 class ParkingController extends Controller
 {
     public function slots(Request $request)
@@ -60,6 +60,24 @@ class ParkingController extends Controller
             'status'  => true,
             'data'    => $data,
             'message' => 'Booking List',
+        ]);
+    }
+
+    // pay for bookings
+    public function pay_invoice(Request $request){
+        $data=$request->validate([
+            'invoice_id'=>'required|exists:booking_invoices,id',
+            'paid_amount'=>'required|decimal:2'
+        ]);
+        $res=BookingInvoice::find($data['invoice_id']);
+        if($res->status=='paid'){
+            return response()->json(['status'=>true,'data'=>$res,'message'=>'Invoice is already Paid']);
+        }
+        $res->update(['paid_amount'=>$data['paid_amount'],'status'=>'paid','payment_mode'=>'offline','collect_by'=>auth()->id()]);
+        return response()->json([
+            'status'=>true,
+            'data'=>$res,
+            'message'=>'Invoice paid sucessfully'
         ]);
     }
 }

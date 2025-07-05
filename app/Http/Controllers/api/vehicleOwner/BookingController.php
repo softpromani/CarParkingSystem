@@ -9,6 +9,7 @@ use App\Models\BookingInvoice;
 use App\Models\ParkingSlot;
 use App\Models\Vehicle;
 use App\Models\WalletHistory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -115,6 +116,8 @@ class BookingController extends Controller
                 $inv->paid_amount    = $inv->amount_to_pay;
                 $inv->transaction_no = $inv->booking_id;
                 $inv->status         = 'paid';
+                $inv->is_submitted_to_admin=true;
+                $inv->submitted_at=Carbon::now();
                 $inv->update();
             });
             return response()->json(['status' => true, 'message' => 'Invoice Paid successfully']);
