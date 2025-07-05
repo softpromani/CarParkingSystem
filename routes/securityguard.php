@@ -9,4 +9,5 @@ Route::middleware(['auth:sanctum', 'role:guard'])->prefix('security-guard')->gro
     Route::get('profile', [DashboardController::class, 'profile']);
     Route::get('parking-bookings', [ParkingController::class, 'parking_bookings']);
     Route::post('pay-invoice',[ParkingController::class, 'pay_invoice']);
+    Route::post('book-parking',[ParkingController::class, 'book_parking']);
 });
